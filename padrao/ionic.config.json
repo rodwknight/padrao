@@ -1,0 +1,7 @@
+{
+  "name": "Destramed",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
