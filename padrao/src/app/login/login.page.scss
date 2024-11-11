@@ -1,0 +1,49 @@
+ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+  
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.login-form { margin: 0 auto; }
+
+ion-thumbnail {
+    --size: 160px;
+    --border-radius: 14px;
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+    .login-form {
+        width: 88.888%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .login-form {
+        width: 77.777%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .login-form {
+        width: 44.444%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .login-form {
+        width: 22.222%;
+    }
+}

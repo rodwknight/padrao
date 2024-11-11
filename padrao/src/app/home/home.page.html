@@ -1,0 +1,45 @@
+<app-main-content title="Destramed">
+  <ion-content [fullscreen]="true">
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size-sm="6" size-xs="6" size-md="4" size-lg="2" class="ion-padding">
+          <div class="ion-text-center size-item-menu ion-align-items-center" (click)="irPara('orcamento')">
+            <ion-icon name="calculator" size="large" color="primary"></ion-icon>
+            <p class="ion-margin-vertical"><b>Orçamentos</b></p>
+          </div>
+        </ion-col>
+        <ion-col size-sm="6" size-xs="6" size-md="4" size-lg="2" class="ion-padding">
+          <div class="ion-text-center size-item-menu ion-align-items-center">
+            <ion-icon name="file-tray-full" size="large" color="primary"></ion-icon>
+            <p class="ion-margin-vertical"><b>Ordens de Serviço</b></p>
+          </div>
+        </ion-col>
+        <ion-col size-sm="6" size-xs="6" size-md="4" size-lg="2" class="ion-padding">
+          <div class="ion-text-center size-item-menu ion-align-items-center">
+            <ion-icon name="desktop" size="large" color="primary"></ion-icon>
+            <p class="ion-margin-vertical"><b>Monitores</b></p>
+          </div>
+        </ion-col>
+        <ion-col size-sm="6" size-xs="6" size-md="4" size-lg="2" class="ion-padding">
+          <div class="ion-text-center size-item-menu ion-align-items-center">
+            <ion-icon name="briefcase" size="large" color="primary"></ion-icon>
+            <p class="ion-margin-vertical"><b>Contratos</b></p>
+          </div>
+        </ion-col>
+        <ion-col size-sm="6" size-xs="6" size-md="4" size-lg="2" class="ion-padding">
+          <div class="ion-text-center size-item-menu ion-align-items-center" (click)="irPara('cliente')">
+            <ion-icon name="briefcase" size="large" color="primary"></ion-icon>
+            <p class="ion-margin-vertical"><b>Clientes</b></p>
+          </div>
+        </ion-col>
+        <ion-col size-sm="6" size-xs="6" size-md="4" size-lg="2" class="ion-padding">
+          <div class="ion-text-center size-item-menu ion-align-items-center" (click)="irPara('unidade')">
+            <ion-icon name="briefcase" size="large" color="primary"></ion-icon>
+            <p class="ion-margin-vertical"><b>Unidades</b></p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+
+</app-main-content>

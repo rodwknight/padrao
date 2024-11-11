@@ -1,0 +1,9 @@
+<app-main-content urlBack="/orcamento" title="Criar Orçamento" menu-id="criar-orcamento">
+  <ion-content [fullscreen]="true">
+    <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()" class="login-form">
+      <ion-item class="ion-margin-bottom">
+        <ion-input label="Username" placeholder="Usuário" formControlName="username"></ion-input>
+      </ion-item>
+    </form>
+  </ion-content>
+</app-main-content>

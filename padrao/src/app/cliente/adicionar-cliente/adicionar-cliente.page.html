@@ -1,0 +1,154 @@
+<app-main-content urlBack="/cliente" title="Adicionar Cliente" menu-id="adicionar-cliente">
+    <ion-content [fullscreen]="true">
+        <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()" class="login-form">
+          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
+            <ion-row>
+              <ion-col>
+                <ion-input label="CNPJ" placeholder="CNPJ" formControlName="cnpj" maxlength="18" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('cnpj')">
+                  <ion-chip *ngIf="clienteForm.get('cnpj')?.errors?.['required']" color="danger">CNPJ obrigatório!</ion-chip>
+                </div>   
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input label="Razão Social" placeholder="Razão social" formControlName="razaoSocial" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('razaoSocial')">
+                  <ion-chip *ngIf="clienteForm.get('razaoSocial')?.errors?.['required']" color="danger">Razão Social obrigatória!</ion-chip>
+                </div>   
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input label="Nome fantasia" placeholder="Nome fantasia" formControlName="nomeFantasia" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('nomeFantasia')">
+                  <ion-chip *ngIf="clienteForm.get('nomeFantasia')?.errors?.['required']" color="danger">Nome fantasia obrigatório!</ion-chip>
+                </div>   
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input label="Representante Legal" placeholder="Representante Legal" formControlName="representante" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('representante')">
+                  <ion-chip *ngIf="clienteForm.get('representante')?.errors?.['required']" color="danger">Representante Legal obrigatório!</ion-chip>
+                </div>   
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="CPF Representante" placeholder="CPF Representante" formControlName="cpf" maxlength="14" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('cpf')">
+                  <ion-chip *ngIf="clienteForm.get('cpf')?.errors?.['required']" color="danger">CPF Representante obrigatório!</ion-chip>
+                </div>   
+              </ion-col>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="RG Representante" placeholder="RG Representante" formControlName="rg" maxlength="13" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('rg')">
+                  <ion-chip *ngIf="clienteForm.get('rg')?.errors?.['required']" color="danger">RG Representante obrigatório!</ion-chip>
+                </div>   
+              </ion-col>
+            </ion-row>        
+            <ion-row>
+              <ion-col>
+                <ion-input label="Rua" placeholder="Rua" formControlName="rua" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('rua')">
+                  <ion-chip *ngIf="clienteForm.get('rua')?.errors?.['required']" color="danger">Rua obrigatório!</ion-chip>
+                </div>   
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input maxlength="4" label="Número" placeholder="Número" formControlName="numero" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('numero')">
+                  <ion-chip *ngIf="clienteForm.get('numero')?.errors?.['required']" color="danger">Número obrigatório!</ion-chip>
+                </div>  
+              </ion-col>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="Complemento" placeholder="Complemento" formControlName="complemento" fill="solid"></ion-input>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="País" placeholder="País" formControlName="pais" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('pais')">
+                  <ion-chip *ngIf="clienteForm.get('pais')?.errors?.['required']" color="danger">País obrigatório!</ion-chip>
+                </div>  
+              </ion-col>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="Estado" placeholder="SC" formControlName="estado" maxlength="2" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('estado')">
+                  <ion-chip *ngIf="clienteForm.get('estado')?.errors?.['required']" color="danger">Estado obrigatório!</ion-chip>
+                </div>  
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="Cidade" placeholder="Cidade" formControlName="cidade" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('cidade')">
+                  <ion-chip *ngIf="clienteForm.get('cidade')?.errors?.['required']" color="danger">Cidade obrigatório!</ion-chip>
+                </div>  
+              </ion-col>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="CEP" placeholder="CEP" formControlName="cep" maxlength="10" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('cep')">
+                  <ion-chip *ngIf="clienteForm.get('cep')?.errors?.['required']" color="danger">CEP obrigatório!</ion-chip>
+                </div>  
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input label="Bairro" placeholder="Bairro" formControlName="bairro" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('bairro')">
+                  <ion-chip *ngIf="clienteForm.get('bairro')?.errors?.['required']" color="danger">Bairro obrigatório!</ion-chip>
+                </div>  
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="Telefone" placeholder="(99) 9999-99999" formControlName="telefone" maxlength="15" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('telefone')">
+                  <ion-chip *ngIf="clienteForm.get('telefone')?.errors?.['required']" color="danger">Telefone obrigatório!</ion-chip>
+                </div>
+              </ion-col>
+              <ion-col size-xs="12" size-lg="6">
+                <ion-input label="Celular" placeholder="(99) 9999-99999" formControlName="celular" maxlength="15" fill="solid"></ion-input>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input label="Email" placeholder="Email" formControlName="email" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('email')">
+                  <ion-chip *ngIf="clienteForm.get('email')?.errors?.['email']" color="danger">Email inválido!</ion-chip>
+                  <ion-chip *ngIf="clienteForm.get('email')?.errors?.['required']" color="danger">Email obrigatório!</ion-chip>
+                </div>          
+              </ion-col>
+            </ion-row>        
+          </ion-grid> 
+          <ion-toolbar>
+            <ion-buttons slot="end">
+              <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"  class="ion-hide-md-down">
+                Cancelar
+                <ion-icon slot="end" name="close"></ion-icon>
+              </ion-button>
+              <ion-button fill="solid" color="primary" size="small" type="submit" shape="round">
+                Salvar
+                <ion-icon slot="end" name="checkmark"></ion-icon>
+              </ion-button>        
+            </ion-buttons>
+            <ion-buttons slot="start">
+              <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"  class="ion-hide-md-up">
+                Cancelar
+                <ion-icon slot="end" name="close"></ion-icon>
+              </ion-button>
+            </ion-buttons>    
+          </ion-toolbar>      
+        </form>
+        <ion-toast
+          [isOpen]="isToastOpen"
+          [message]="messageToast"
+          [duration]="5000"
+          [color]="success"
+          (didDismiss)="setOpen(false)"
+      ></ion-toast>
+      </ion-content>
+</app-main-content>

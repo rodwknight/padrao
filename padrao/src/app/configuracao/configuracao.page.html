@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Configuração</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="configuracaoForm" (ngSubmit)="onSubmit()" class="login-form">
+    <ion-item class="ion-margin-bottom">
+      <ion-input formControlName="ip" label="Ip" labelPlacement="fixed" placeholder="127.0.0.1" [(ngModel)]="model.ip" maxlength="13" ></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin-bottom">
+      <ion-input formControlName="porta" label="Porta" labelPlacement="fixed" placeholder="8080" type="number" [(ngModel)]="model.porta" maxlength="4" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-radio-group [compareWith]="compareWith" formControlName="protocolo" [allowEmptySelection]="true" [(ngModel)]="model.protocolo" [value]="model.protocolo">
+        <ion-label position="fixed">Protocolo</ion-label>
+        <ion-item *ngFor="let protocolo of protocolos;">
+          <ion-radio [value]="protocolo">{{ protocolo.label }}</ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item>
+    <ion-button expand="full" type="submit">Salvar</ion-button>
+  </form>
+</ion-content>

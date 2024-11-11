@@ -1,0 +1,32 @@
+<app-main-content menu-id="cliente" urlBack="/home" [search]="true">
+  <ion-content [fullscreen]="true">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title>Lista Clientes</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-list *ngFor="let cliente of clientes" [inset]="true" class="ion-no-margin-vertical">
+      <ion-item detail="false"  >
+        <ion-label>
+          <strong>{{cliente.codCliente}}</strong>
+          <ion-text class="ion-text-uppercase">{{cliente.nomeFantasia}}</ion-text>
+          <ion-note color="medium" class="ion-text-wrap">
+            {{cliente.representante}}
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">{{cliente.createdAt | date : 'dd/MM/yyyy'}}</ion-note>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngIf="clientes.length === 0" >
+      <ion-label class="ion-text-center">Nenhum Cliente encontrado!</ion-label>
+    </ion-item>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="adicionarCliente()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</app-main-content>
+

@@ -1,0 +1,32 @@
+<app-main-content menu-id="unidade" urlBack="/home" [search]="true" (searchChange)="onSearchChange($event)">
+  <ion-content [fullscreen]="true">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title>Lista de Unidades</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-list *ngFor="let unidade of unidades" [inset]="true" class="ion-no-margin-vertical">
+      <ion-item detail="false"  >
+        <ion-label>
+          <strong>{{unidade.codUnidade}}</strong>
+          <ion-text class="ion-text-uppercase">{{unidade.nomeFantasia}}</ion-text>
+          <ion-note color="medium" class="ion-text-wrap">
+            {{unidade.representante}}
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">{{unidade.createdAt | date : 'dd/MM/yyyy'}}</ion-note>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngIf="unidades.length === 0" >
+      <ion-label class="ion-text-center">Nenhuma unidade encontrada!</ion-label>
+    </ion-item>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="adicionarUnidade()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</app-main-content>
+

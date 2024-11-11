@@ -25,13 +25,47 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+.ion-padding-top-header {
+    padding-top: calc(var(--ion-padding) + 39px);
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+ion-item::part(native) {
+    padding-left: 0px;
+}
+
+.ion-no-margin-vertical {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin: 0 16px;
+}
+
+.ion-chip-list {
+    margin-top: 3px;
+    min-height: 20px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+//xs
+@media (max-width: 575px) {
+    
+}
+//sm
+@media (min-width: 576px) and (max-width: 767px) {
+    
+}
+//md
+@media (min-width: 768px) and (max-width: 991px) {
+    
+}
+//lg
+@media (min-width: 992px) and (max-width: 1199px) {
+    .ion-pt-lg {
+        padding-top: 16px;
+    }
+}
+//xl
+@media (min-width: 1200px) {
+    .ion-pt-xl {
+        padding-top: 16px;
+    }
+}

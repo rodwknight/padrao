@@ -1,0 +1,30 @@
+<ion-menu side="end" [menuId]="menuId" contentId="main-content" aria-hidden="false" #mainMenu>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item [button]="true" [detail]="true" aria-hidden="false">
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label>Perfil</ion-label></ion-item>
+      <ion-item [button]="true" (click)="logout()" aria-hidden="false">
+        <ion-icon name="log-out" slot="start"></ion-icon>
+        <ion-label>Sair</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="urlBack !== ''">
+      <ion-button (click)="voltar(urlBack)" slot="start">
+        <ion-icon slot="icon-only" md="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="title !== '' ">{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button [menu]="menuId"></ion-menu-button>
+    </ion-buttons>
+    <ion-searchbar *ngIf="search" placeholder="Buscar" (ionChange)="onSearchChange($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+<div class="ion-page ion-padding-top-header" id="main-content">
+  <ng-content></ng-content>
+</div>
