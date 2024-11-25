@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 import { HomePage } from '../home/home.page';
 
+
 @Component({
   selector: 'app-orcamento',
   templateUrl: './orcamento.page.html',
@@ -15,10 +16,13 @@ export class OrcamentoPage implements OnInit {
   public backPage = HomePage
 
   constructor(private authService: AuthService,
-    private router: Router,) {
+    private router: Router) {
+
     if (!this.localStorage.exists('accesskey')) {
       this.router.navigate(['/'])
     }
+
+
   }
 
   ngOnInit() { }
@@ -33,5 +37,7 @@ export class OrcamentoPage implements OnInit {
   public criarOrcamento = (): void => {
     this.router.navigate(['/orcamento/criar-orcamento'])
   }
+
+
 
 }

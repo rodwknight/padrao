@@ -1,9 +1,91 @@
-<app-main-content urlBack="/orcamento" title="Criar Orçamento" menu-id="criar-orcamento">
+<app-main-content menu-id="criar-orcamento" urlBack="/orcamento" title="Criar Orçamento">
   <ion-content [fullscreen]="true">
     <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()" class="login-form">
-      <ion-item class="ion-margin-bottom">
-        <ion-input label="Username" placeholder="Usuário" formControlName="username"></ion-input>
-      </ion-item>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Contrada</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
+            <ion-row>
+              <ion-col>
+                <!--ion-input label="CNPJ" placeholder="CNPJ" formControlName="cnpj" maxlength="18" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('cnpj')">
+                  <ion-chip *ngIf="orcamentoForm.get('cnpj')?.errors?.['required']" color="danger">CNPJ obrigatório!</ion-chip>
+                </div-->
+                <ion-select formControlName="unidade" aria-label="uniade" interface="popover" placeholder="Selecione a Unidade" label="Unidade:" (ionChange)="alterarUnidade($event)">
+                  <ion-select-option value="unidade" *ngFor="let unidade of unidades">{{unidade.nomeFantasia}}</ion-select-option>
+                </ion-select>
+                <ion-list *ngIf="unidadeSelecionada">
+                  <ion-item>
+                    <ion-label>Endereço: </ion-label>
+                    <ion-text>{{unidadeSelecionada.rua}}</ion-text>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>  
+          </ion-grid> 
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Contratante</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
+            <ion-row>
+              <ion-col>
+                <!--ion-input label="CNPJ" placeholder="CNPJ" formControlName="cnpj" maxlength="18" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('cnpj')">
+                  <ion-chip *ngIf="orcamentoForm.get('cnpj')?.errors?.['required']" color="danger">CNPJ obrigatório!</ion-chip>
+                </div-->   
+              </ion-col>
+            </ion-row>  
+          </ion-grid> 
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Serviços</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
+            <ion-row>
+              <ion-col>
+                <!--ion-input label="CNPJ" placeholder="CNPJ" formControlName="cnpj" maxlength="18" fill="solid" ></ion-input>
+                <div *ngIf="isFieldInvalid('cnpj')">
+                  <ion-chip *ngIf="orcamentoForm.get('cnpj')?.errors?.['required']" color="danger">CNPJ obrigatório!</ion-chip>
+                </div-->   
+              </ion-col>
+            </ion-row>  
+          </ion-grid> 
+        </ion-card-content>
+      </ion-card>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"  class="ion-hide-md-down">
+            Cancelar
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+          <ion-button fill="solid" color="primary" size="small" type="submit" shape="round">
+            Gerar Orçamento
+            <ion-icon slot="end" name="checkmark"></ion-icon>
+          </ion-button>        
+        </ion-buttons>
+        <ion-buttons slot="start">
+          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"  class="ion-hide-md-up">
+            Cancelar
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>    
+      </ion-toolbar>      
     </form>
+    <ion-toast
+      [isOpen]="isToastOpen"
+      [message]="messageToast"
+      [duration]="5000"
+      [color]="success"
+      (didDismiss)="setOpen(false)"
+  ></ion-toast>
   </ion-content>
 </app-main-content>
