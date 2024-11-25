@@ -77,3 +77,14 @@ model Cliente {
   @@map("clientes")
   @@index([id, codCliente])
 }
+
+model Servico {
+  id String @id @default(uuid())
+  codServico String
+  nome String
+  descricao String
+  descricaoOrcamento String
+  valor Float
+  createdAt DateTime @default(now())
+  @@map("servicos")
+}

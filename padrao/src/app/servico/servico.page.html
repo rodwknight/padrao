@@ -1,0 +1,32 @@
+<app-main-content menu-id="servico" urlBack="/home" [search]="true" (searchChange)="onSearchChange($event)">
+  <ion-content [fullscreen]="true">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title>Lista de Serviços</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-list *ngFor="let servico of servicos" [inset]="true" class="ion-no-margin-vertical">
+      <ion-item detail="false"  >
+        <ion-label>
+          <strong>{{servico.codServico}}</strong>
+          <ion-text class="ion-text-uppercase">{{servico.nome}}</ion-text>
+          <ion-note color="medium" class="ion-text-wrap">
+            {{servico.descricao}}
+          </ion-note>
+        </ion-label>
+        <div class="metadata-end-wrapper" slot="end">
+          <ion-note color="medium">{{servico.createdAt | date : 'dd/MM/yyyy'}}</ion-note>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngIf="servicos.length === 0" >
+      <ion-label class="ion-text-center">Nenhuma serviço encontrado!</ion-label>
+    </ion-item>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="adicionarServico()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</app-main-content>
+

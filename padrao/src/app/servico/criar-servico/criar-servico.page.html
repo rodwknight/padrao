@@ -1,0 +1,75 @@
+<app-main-content menu-id="criar-servico" urlBack="/servico" title="Criar Serviço">
+  <ion-content [fullscreen]="true">
+    <form [formGroup]="servicoForm" (ngSubmit)="onSubmit()" class="login-form">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Serviço</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
+            <ion-row>
+              <ion-col>
+                <ion-input label="Nome" placeholder="Nome" formControlName="nome"
+                  fill="solid"></ion-input>                  
+                <div *ngIf="isFieldInvalid('nome')">
+                  <ion-chip *ngIf="servicoForm.get('nome')?.errors?.['required']" color="danger">Nome
+                    obrigatória!</ion-chip>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-textarea label="Descrição" placeholder="Descrição" formControlName="descricao" fill="solid" ></ion-textarea>
+                <div *ngIf="isFieldInvalid('descricao')">
+                  <ion-chip *ngIf="servicoForm.get('descricao')?.errors?.['required']" color="danger">Razão Social
+                    obrigatória!</ion-chip>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input label="Descrição formal" placeholder="Descrição formal" formControlName="descricaoOrcamento"
+                  fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('descricaoOrcamento')">
+                  <ion-chip *ngIf="servicoForm.get('descricaoOrcamento')?.errors?.['required']" color="danger">Descrição formal obrigatória!</ion-chip>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-input maxlength="4" label="Valor" placeholder="Valor" formControlName="valor" type='number'
+                  fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('valor')">
+                  <ion-chip *ngIf="servicoForm.get('valor')?.errors?.['required']" color="danger">Valor
+                    obrigatório!</ion-chip>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"
+            class="ion-hide-md-down">
+            Cancelar
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+          <ion-button fill="solid" color="primary" size="small" type="submit" shape="round">
+            Criar Serviço
+            <ion-icon slot="end" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="start">
+          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"
+            class="ion-hide-md-up">
+            Cancelar
+            <ion-icon slot="end" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </form>
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="5000" [color]="success"
+      (didDismiss)="setOpen(false)"></ion-toast>
+  </ion-content>
+</app-main-content>
