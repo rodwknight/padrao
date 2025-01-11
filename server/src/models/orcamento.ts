@@ -2,35 +2,35 @@ const { PrismaClient } = require("@prisma/client")
 
 const prisma = new PrismaClient()
 
-const ClienteModel = {
+const OrcamentoModel = {
 
     list: async (where: any = undefined) => {
-        return await prisma.cliente.findMany()
+        return await prisma.orcamento.findMany()
     },
     get: async (id: any) => {
-        return await prisma.cliente.findFirst({
+        return await prisma.orcamento.findFirst({
             where: { id }
         })
     },
     create: async (data: any) => {
-        await prisma.cliente.create({ data })
+        await prisma.orcamento.create({ data })
     },
     update: async (id: any, data: any) => {
-        await prisma.cliente.update({
+        await prisma.orcamento.update({
             where: { id },
             data
         })
     },
     delete: async (id: any) => {
-        await prisma.cliente.delete({
+        await prisma.orcamento.delete({
             where: { id }
         })
     },
     createMany: async (data: any) => {
-        await prisma.cliente.createMany({ data })
+        await prisma.orcamento.createMany({ data })
     },
     findFirst: async (data: any) => {
-        return await prisma.cliente.findFirst({
+        return await prisma.orcamento.findFirst({
             where: data
         })
     },
@@ -38,21 +38,20 @@ const ClienteModel = {
         if (prop && value) {
             const stringWhere = `{ ${prop}: ${value}}`;
             const where = JSON.stringify(stringWhere)
-            return await prisma.cliente.count({ where })
+            return await prisma.orcamento.count({ where })
         } else {
-            return await prisma.cliente.count()
+            return await prisma.orcamento.count()
         }
     },
     search: async (filter: string) => {
-        return await prisma.cliente.findMany({
+        return await prisma.orcamento.findMany({
             where: {
                 OR: [
-                    { codCliente: { contains: filter } },
-                    { nomeFantasia: { contains: filter } }
+                    { codOrcamento: { contains: filter } }
                 ]
             }
         })
     },
 }
 
-module.exports = ClienteModel
+module.exports = OrcamentoModel

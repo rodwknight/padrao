@@ -3,6 +3,6 @@ export interface FormServico extends Record<string, any> {
     nome: string
     descricao: string
     descricaoOrcamento: string
-    valor: number
+    valor: string | number
     createdAt?: Date
 }

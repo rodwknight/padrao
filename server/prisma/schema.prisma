@@ -73,6 +73,7 @@ model Cliente {
   telefone String
   celular String
   email String
+  funcionarios Int @default(0)
   createdAt DateTime @default(now())
   @@map("clientes")
   @@index([id, codCliente])
@@ -88,3 +89,24 @@ model Servico {
   createdAt DateTime @default(now())
   @@map("servicos")
 }
+
+model Orcamento {
+  id String @id @default(uuid())
+  codOrcamento String
+  idUnidade String
+  idCliente String
+  funcionarios Float
+  createdAt DateTime @default(now())
+  @@map("orcamentos")
+}
+
+model OrcamentoServico {
+  id String @id @default(uuid())
+  idOrcamento String
+  idServico String
+  valor Float
+  createdAt DateTime @default(now())
+  @@map("orcamentos_servicos")
+}
+
+

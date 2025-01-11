@@ -2,90 +2,237 @@
   <ion-content [fullscreen]="true">
     <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()" class="login-form">
       <ion-card>
-        <ion-card-header>
-          <ion-card-title>Contrada</ion-card-title>
-        </ion-card-header>
         <ion-card-content>
-          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
-            <ion-row>
-              <ion-col>
-                <!--ion-input label="CNPJ" placeholder="CNPJ" formControlName="cnpj" maxlength="18" fill="solid" ></ion-input>
-                <div *ngIf="isFieldInvalid('cnpj')">
-                  <ion-chip *ngIf="orcamentoForm.get('cnpj')?.errors?.['required']" color="danger">CNPJ obrigatório!</ion-chip>
-                </div-->
-                <ion-select formControlName="unidade" aria-label="uniade" interface="popover" placeholder="Selecione a Unidade" label="Unidade:" (ionChange)="alterarUnidade($event)">
-                  <ion-select-option value="unidade" *ngFor="let unidade of unidades">{{unidade.nomeFantasia}}</ion-select-option>
-                </ion-select>
-                <ion-list *ngIf="unidadeSelecionada">
+          <ion-accordion-group value="contratada">
+            <ion-accordion value="contratada">
+              <ion-item slot="header">
+                <ion-label>
+                  <h1>Contratada<span *ngIf="unidadeSelecionada.codUnidade" class="ion-color-light">
+                      {{ ': ' + unidadeSelecionada.codUnidade + ' - ' + unidadeSelecionada.nomeFantasia}}
+                    </span>
+                  </h1>
+                </ion-label>
+              </ion-item>
+              <div class="ion-padding" slot="content">
+                <ion-row>
+                  <ion-col>
+                    <ion-select formControlName="unidade" aria-label="unidade" interface="popover"
+                      placeholder="Selecione a Unidade" label="Unidade:" (ionChange)="alterarUnidade($event)">
+                      <ion-select-option [value]="unidade" *ngFor="let unidade of unidades">{{unidade.codUnidade}} -
+                        {{unidade.nomeFantasia}}</ion-select-option>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+                <ion-list *ngIf="unidadeSelecionada.codUnidade">
                   <ion-item>
-                    <ion-label>Endereço: </ion-label>
-                    <ion-text>{{unidadeSelecionada.rua}}</ion-text>
+                    <ion-label>
+                      <h3>CNPJ</h3>
+                      <p>{{ unidadeSelecionada.cnpj }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Razão Social</h3>
+                      <p>{{ unidadeSelecionada.razaoSocial }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Nome Fantasia</h3>
+                      <p>{{ unidadeSelecionada.nomeFantasia }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>CPF Representante</h3>
+                      <p>{{ unidadeSelecionada.cpf }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>RG Representante</h3>
+                      <p>{{ unidadeSelecionada.rg }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Endereço</h3>
+                      <p>Rua: {{unidadeSelecionada.rua}}, nº {{unidadeSelecionada.numero}},
+                        {{unidadeSelecionada.complemento ? unidadeSelecionada.complemento + ',' : '' }}
+                        {{unidadeSelecionada.bairro}}. CEP: {{unidadeSelecionada.cep}}. {{unidadeSelecionada.cidade}} -
+                        {{unidadeSelecionada.estado}}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Telefone</h3>
+                      <p>{{ unidadeSelecionada.telefone }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Celular</h3>
+                      <p>{{ unidadeSelecionada.celular }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Email</h3>
+                      <p>{{ unidadeSelecionada.email }}</p>
+                    </ion-label>
                   </ion-item>
                 </ion-list>
-              </ion-col>
-            </ion-row>  
-          </ion-grid> 
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <ion-accordion-group value="contratante">
+            <ion-accordion value="contratante">
+              <ion-item slot="header">
+                <ion-label>
+                  <h1>Contratante<span *ngIf="clienteSelecionado.codCliente" class="ion-color-light">
+                      {{ ': ' + clienteSelecionado.codCliente + ' - ' + clienteSelecionado.nomeFantasia}}
+                    </span>
+                  </h1>
+                </ion-label>
+              </ion-item>
+              <div class="ion-padding" slot="content">
+                <ion-row>
+                  <ion-col>
+                    <ion-select formControlName="cliente" aria-label="cliente" interface="popover"
+                      placeholder="Selecione o Cliente" label="Cliente:" (ionChange)="alterarCliente($event)">
+                      <ion-select-option [value]="cliente" *ngFor="let cliente of clientes">{{cliente.codCliente}} -
+                        {{cliente.nomeFantasia}}</ion-select-option>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+                <ion-list *ngIf="clienteSelecionado.codCliente">
+                  <ion-item>
+                    <ion-label>
+                      <h3>CNPJ</h3>
+                      <p>{{ clienteSelecionado.cnpj }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Razão Social</h3>
+                      <p>{{ clienteSelecionado.razaoSocial }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Nome Fantasia</h3>
+                      <p>{{ clienteSelecionado.nomeFantasia }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>CPF Representante</h3>
+                      <p>{{ clienteSelecionado.cpf }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>RG Representante</h3>
+                      <p>{{ clienteSelecionado.rg }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Endereço</h3>
+                      <p>Rua: {{clienteSelecionado.rua}}, nº {{clienteSelecionado.numero}},
+                        {{clienteSelecionado.complemento ? clienteSelecionado.complemento + ',' : '' }}
+                        {{clienteSelecionado.bairro}}. CEP: {{clienteSelecionado.cep}}. {{clienteSelecionado.cidade}} -
+                        {{clienteSelecionado.estado}}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Telefone</h3>
+                      <p>{{ clienteSelecionado.telefone }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Celular</h3>
+                      <p>{{ clienteSelecionado.celular }}</p>
+                    </ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>
+                      <h3>Email</h3>
+                      <p>{{ clienteSelecionado.email }}</p>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
         </ion-card-content>
       </ion-card>
       <ion-card>
         <ion-card-header>
-          <ion-card-title>Contratante</ion-card-title>
+          <ion-card-title>
+            <h1>Orçamento</h1>
+          </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
-            <ion-row>
-              <ion-col>
-                <!--ion-input label="CNPJ" placeholder="CNPJ" formControlName="cnpj" maxlength="18" fill="solid" ></ion-input>
-                <div *ngIf="isFieldInvalid('cnpj')">
-                  <ion-chip *ngIf="orcamentoForm.get('cnpj')?.errors?.['required']" color="danger">CNPJ obrigatório!</ion-chip>
-                </div-->   
-              </ion-col>
-            </ion-row>  
-          </ion-grid> 
-        </ion-card-content>
-      </ion-card>
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Serviços</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-grid [fixed]="true" class="ion-pt-lg ion-pt-xl">
-            <ion-row>
-              <ion-col>
-                <!--ion-input label="CNPJ" placeholder="CNPJ" formControlName="cnpj" maxlength="18" fill="solid" ></ion-input>
-                <div *ngIf="isFieldInvalid('cnpj')">
-                  <ion-chip *ngIf="orcamentoForm.get('cnpj')?.errors?.['required']" color="danger">CNPJ obrigatório!</ion-chip>
-                </div-->   
-              </ion-col>
-            </ion-row>  
-          </ion-grid> 
+          <ion-list lines="none">
+            <ion-item>
+              <ion-input label="Nº Funcionarios:" placeholder="0" formControlName="funcionarios" aria-label="Número de Funcionarios" name="funcionarios"
+                [value]="funcionarios"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon (click)="adicionarServico()" slot="end" size="large" name="add-circle" color="primary"
+                aria-label="Adicionar Serviço"></ion-icon>
+              <ion-select formControlName="servico" aria-label="servico" interface="popover"
+                placeholder="Selecione o Serviço" label="Serviço:" (ionChange)="alterarServico($event)">
+                <ion-select-option [value]="servico" *ngFor="let servico of servicos">{{servico.codServico}} -
+                  {{servico.nome}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-text>Serviços adicionados({{listaServicosAdicionados.length}}):</ion-text>
+            </ion-item>
+            <ion-item *ngFor="let servico of listaServicosAdicionados">
+              <ion-icon (click)="removeServico(servico)" name="trash" slot="start" color="danger"></ion-icon>
+              <ion-label>{{ servico.codServico }} - {{ servico.nome }}</ion-label>
+              <ion-text slot="end">{{ servico.valor | currency : 'BRL' }}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <h3>Total:</h3>
+                <p>{{ total | currency : 'BRL' }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
         </ion-card-content>
       </ion-card>
       <ion-toolbar>
         <ion-buttons slot="end">
-          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"  class="ion-hide-md-down">
+          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"
+            class="ion-hide-md-down">
             Cancelar
             <ion-icon slot="end" name="close"></ion-icon>
           </ion-button>
           <ion-button fill="solid" color="primary" size="small" type="submit" shape="round">
             Gerar Orçamento
             <ion-icon slot="end" name="checkmark"></ion-icon>
-          </ion-button>        
+          </ion-button>
         </ion-buttons>
         <ion-buttons slot="start">
-          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"  class="ion-hide-md-up">
+          <ion-button fill="outline" color="primary" size="small" shape="round" (click)="voltar()"
+            class="ion-hide-md-up">
             Cancelar
             <ion-icon slot="end" name="close"></ion-icon>
           </ion-button>
-        </ion-buttons>    
-      </ion-toolbar>      
+        </ion-buttons>
+      </ion-toolbar>
     </form>
-    <ion-toast
-      [isOpen]="isToastOpen"
-      [message]="messageToast"
-      [duration]="5000"
-      [color]="success"
-      (didDismiss)="setOpen(false)"
-  ></ion-toast>
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="5000" [color]="success"
+      (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>
 </app-main-content>

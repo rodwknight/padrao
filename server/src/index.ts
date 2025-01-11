@@ -6,6 +6,7 @@ const loginRoutes = require('./routes/login')
 const unidadeRoutes = require('./routes/unidade')
 const clienteRoutes = require('./routes/cliente')
 const servicoRoutes = require('./routes/servico')
+const orcamentoRoutes = require('./routes/orcamento')
 
 const port = 3000;
 
@@ -16,5 +17,6 @@ app.use('/api/login', loginRoutes)
 app.use('/api/unidade', unidadeRoutes)
 app.use('/api/cliente', clienteRoutes)
 app.use('/api/servico', servicoRoutes)
+app.use('/api/orcamento', orcamentoRoutes)
 
 app.listen(port, () => { });

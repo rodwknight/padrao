@@ -21,11 +21,13 @@ export class ServicoService {
   }
 
   public create(dados: FormServico): Observable<any> {
+    let valor = (dados.valor as string).replace('.', '')
+    dados.valor = parseFloat(valor.replace(',', '.'))
     return this.http.post(`${this.URL}/servico/create`, dados)
   }
 
-  public list(filter:any = undefined): Observable<any> {
-    return this.http.post(`${this.URL}/servico/list`, {params : {filter}})    
+  public list(filter: any = undefined): Observable<any> {
+    return this.http.post(`${this.URL}/servico/list`, { params: { filter } })
   }
 
   private getUrl = (): void => {

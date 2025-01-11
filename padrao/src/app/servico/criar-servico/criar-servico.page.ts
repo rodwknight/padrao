@@ -4,35 +4,46 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { FormServico } from 'src/app/interfaces/form-servico';
 import { ServicoService } from 'src/app/services/servico.service';
+import { ValorPipe } from 'src/app/shared/currency-pipe/currency-pipe.pipe';
 
 @Component({
   selector: 'app-criar-servico',
   templateUrl: './criar-servico.page.html',
   styleUrls: ['./criar-servico.page.scss'],
+  providers: [ValorPipe]
 })
 export class CriarServicoPage implements OnInit {
 
   public servicoForm: FormGroup
-  public isToastOpen = false;
-  public messageToast = ''
-  public success = 'success'
+  public isToastOpen: boolean
+  public messageToast: string
+  public success: string
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private servicoService: ServicoService
+    private servicoService: ServicoService,
+    private currencyPipe: ValorPipe
   ) {
+    this.isToastOpen = false
+    this.messageToast = ''
+    this.success = 'success'
     this.servicoForm = this.fb.group({
       nome: ['', Validators.required],
       descricao: ['', Validators.required],
       descricaoOrcamento: ['', Validators.required],
-      valor: ['', { validators: [Validators.required, Validators.pattern("^[0-9]*$")] }],
+      valor: ['', { validators: [Validators.required] }],
     })
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.servicoForm.get("valor")?.valueChanges.subscribe((selectedValue: string) => {
+      selectedValue = selectedValue.replace(',', '')
+      this.servicoForm.get("valor")?.setValue(this.currencyPipe.transform(selectedValue), { emitEvent: false })
+    })
+  }
 
 
-  public onSubmit = async () => {
+  public async onSubmit() {
     if (this.servicoForm.valid) {
       const formValues = this.servicoForm.value as FormServico;
       const { message, success } = await firstValueFrom(this.servicoService.create(formValues))
@@ -45,23 +56,23 @@ export class CriarServicoPage implements OnInit {
       } else {
         this.success = 'danger'
       }
-      this.setOpen(true);
+      this.setOpen(true)
 
     }
   }
 
-  public voltar = () => {
+  public voltar(): void {
     this.router.navigate(['/servico'])
   }
 
   public isFieldInvalid(field: string): boolean {
-    const control = this.servicoForm.get(field);
-    return control && control.invalid && (control.dirty || control.touched) ? true : false;
+    const control = this.servicoForm.get(field)
+    return control && control.invalid && (control.dirty || control.touched) ? true : false
   }
 
 
-  public setOpen(isOpen: boolean) {
-    this.isToastOpen = isOpen;
+  public setOpen(isOpen: boolean): void {
+    this.isToastOpen = isOpen
   }
 
 

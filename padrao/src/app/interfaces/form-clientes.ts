@@ -18,5 +18,6 @@ export interface FormCliente {
     email: string
     codCliente?: string
     status?: number
+    funcionarios: number
     createdAt?: Date
 }

@@ -37,7 +37,7 @@
             </ion-row>
             <ion-row>
               <ion-col>
-                <ion-input maxlength="4" label="Valor" placeholder="Valor" formControlName="valor" type='number'
+                <ion-input maxlength="8" label="Valor" placeholder="Valor" formControlName="valor"
                   fill="solid"></ion-input>
                 <div *ngIf="isFieldInvalid('valor')">
                   <ion-chip *ngIf="servicoForm.get('valor')?.errors?.['required']" color="danger">Valor
