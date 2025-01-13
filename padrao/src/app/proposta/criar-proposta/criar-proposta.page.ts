@@ -9,18 +9,23 @@ import { FormCliente } from 'src/app/interfaces/form-clientes';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { FormServico } from 'src/app/interfaces/form-servico';
 import { ServicoService } from 'src/app/services/servico.service';
+import { FormProposta } from 'src/app/interfaces/form-proposta';
+import { PropostaService } from 'src/app/services/proposta.service';
+import { ValorPipe } from 'src/app/shared/currency-pipe/currency-pipe.pipe';
 
 @Component({
-  selector: 'app-criar-orcamento',
-  templateUrl: './criar-orcamento.page.html',
-  styleUrls: ['./criar-orcamento.page.scss'],
+  selector: 'app-criar-proposta',
+  templateUrl: './criar-proposta.page.html',
+  styleUrls: ['./criar-proposta.page.scss'],
+  providers: [ValorPipe]
 })
-export class CriarOrcamentoPage implements OnInit {
-  public orcamentoForm: FormGroup
+export class CriarPropostaPage implements OnInit {
+  public propostaForm: FormGroup
   public isToastOpen: boolean
   public messageToast: string
   public success: string
   public total: number
+  public totalServicos: number
   public funcionarios: number
   public unidades: FormUnidade[]
   public clientes: FormCliente[]
@@ -36,12 +41,15 @@ export class CriarOrcamentoPage implements OnInit {
     private unidadeService: UnidadeService,
     private clienteService: ClienteService,
     private servicoService: ServicoService,
-    private loadingCtrl: LoadingController
+    private propostaService: PropostaService,
+    private loadingCtrl: LoadingController,
+    private currencyPipe: ValorPipe
   ) {
 
     this.isToastOpen = false
     this.messageToast = ''
     this.success = 'success'
+    this.totalServicos = 0
     this.total = 0
     this.funcionarios = 0
     this.unidades = [] as FormUnidade[]
@@ -52,27 +60,67 @@ export class CriarOrcamentoPage implements OnInit {
     this.servicoSelecionado = {} as FormServico
     this.listaServicosAdicionados = [] as FormServico[]
     this._loading = {} as HTMLIonLoadingElement
-    this.orcamentoForm = this.fb.group({
-      unidade: [this.unidadeSelecionada, Validators.required],
-      cliente: [this.clienteSelecionado, Validators.required],
-      servico: [this.servicoSelecionado, Validators.required],
-      funcionarios: [this.funcionarios, Validators.required]
+    this.propostaForm = this.fb.group({
+      unidade: ['', Validators.required],
+      cliente: ['', Validators.required],
+      servico: ['', Validators.required],
+      funcionarios: [this.funcionarios, Validators.required],
+      deslocamento: [false],
+      valorDeslocamento: [{ value: '', disabled: true }]
     })
   }
 
   async ngOnInit() {
     await this.resolveLoading()
     this.cargaInicial()
+    this.propostaForm.get("valorDeslocamento")?.valueChanges.subscribe((selectedValue: string) => {
+      selectedValue = selectedValue.replace(',', '')
+      this.propostaForm.get("valorDeslocamento")?.setValue(this.currencyPipe.transform(selectedValue), { emitEvent: false })
+    })
   }
 
-  public onSubmit = () => { }
+  public async onSubmit() {
+    if (this.propostaForm.valid) {
+      const formValues = this.propostaForm.value as FormProposta;
+
+      formValues.funcionarios = Number(formValues.funcionarios)
+
+      const { cliente, unidade } = formValues
+
+      let valorDeslocamento = parseFloat((this.propostaForm.get('valorDeslocamento')?.value).replace('.', '').replace(',', '.'))
+
+      const dados = {
+        idCliente: cliente.id,
+        idUnidade: unidade.id,
+        funcionarios: this.funcionarios,
+        deslocamento: this.propostaForm.get('deslocamento')?.value,
+        valorDeslocamento
+      }
+
+      const { message, success } = await firstValueFrom(this.propostaService.create(dados))
+
+      this.messageToast = message
+
+      if (success) {
+        this.success = 'success'
+        this.voltar()
+      } else {
+        this.success = 'danger'
+      }
+      this.setOpen(true);
+    } else {
+      this.propostaForm.markAllAsTouched();
+      return;
+    }
+
+  }
 
   public voltar = () => {
-    this.router.navigate(['/orcamento'])
+    this.router.navigate(['/proposta'])
   }
 
   public isFieldInvalid(field: string): boolean {
-    const control = this.orcamentoForm.get(field);
+    const control = this.propostaForm.get(field);
     return control && control.invalid && (control.dirty || control.touched) ? true : false;
   }
 
@@ -94,6 +142,21 @@ export class CriarOrcamentoPage implements OnInit {
 
   }
 
+  public alterarDeslocamento(e: CustomEvent) {
+
+    const valorDeslocamento = this.propostaForm.get('valorDeslocamento');
+
+    if (e.detail.checked) {
+      valorDeslocamento?.enable();
+      valorDeslocamento?.setValidators([Validators.required]);
+    } else {
+      valorDeslocamento?.disable();
+      valorDeslocamento?.clearValidators();
+    }
+
+    valorDeslocamento?.updateValueAndValidity();
+  }
+
   public alterarServico(e: SelectCustomEvent) {
     this.servicoSelecionado = e.detail.value
   }
@@ -104,24 +167,40 @@ export class CriarOrcamentoPage implements OnInit {
         this.listaServicosAdicionados = [...this.listaServicosAdicionados, this.servicoSelecionado]
       }
 
-      this.somaTotal()
+      this.somaTotalServicos()
     }
   }
 
   public removeServico(servicoRemovido: FormServico): void {
     this.listaServicosAdicionados = this.listaServicosAdicionados.filter(servico => (servico.codServico != servicoRemovido.codServico))
 
-    this.somaTotal()
+    this.somaTotalServicos()
   }
 
-  private somaTotal(): void {
-    this.total = 0
+  public resolveValorTotal(): void {
+
+    let valorDeslocamento: string = this.propostaForm.get('valorDeslocamento')?.value
+    valorDeslocamento = (valorDeslocamento.replace('.', '')).replace(',', '.')
+
+    let valorTotal = this.totalServicos + parseFloat(valorDeslocamento)
+
+    this.total = parseFloat(valorTotal.toFixed(2))
+  }
+
+  private somaTotalServicos(): void {
+    this.totalServicos = 0
 
     for (let servico of this.listaServicosAdicionados) {
-      this.total = this.total + parseFloat((servico.valor as string))
+      this.totalServicos = this.totalServicos + parseFloat((servico.valor as string))
     }
+
+    this.resolveValorTotal()
   }
 
+
+  public somaDeslocamento(e: CustomEvent) {
+    this.resolveValorTotal()
+  }
 
   private resolveLoading = async () => {
     this._loading = await this.loadingCtrl.create({

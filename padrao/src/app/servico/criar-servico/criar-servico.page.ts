@@ -30,7 +30,7 @@ export class CriarServicoPage implements OnInit {
     this.servicoForm = this.fb.group({
       nome: ['', Validators.required],
       descricao: ['', Validators.required],
-      descricaoOrcamento: ['', Validators.required],
+      descricaoProposta: ['', Validators.required],
       valor: ['', { validators: [Validators.required] }],
     })
   }

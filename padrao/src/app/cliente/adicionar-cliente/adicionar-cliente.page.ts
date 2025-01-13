@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { FormUnidade as FormCliente } from 'src/app/interfaces/form-unidade';
+import { FormCliente } from 'src/app/interfaces/form-clientes';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { CepPipe } from 'src/app/shared/cep-pipe/cep.pipe';
 import { CnpjPipe } from 'src/app/shared/cnpj-pipe/cnpj.pipe';
@@ -18,19 +18,30 @@ import { RgPipe } from 'src/app/shared/rg-pipe/rg.pipe';
 export class AdicionarClientePage implements OnInit {
 
   public clienteForm: FormGroup
+  public isToastOpen: boolean
+  public messageToast: string
+  public success: string
 
-  private pipePhone = new PhonePipe()
-  private pipeCnpj = new CnpjPipe()
-  private pipeCpf = new CpfPipe()
-  private pipeCep = new CepPipe()
-  private pipeRg = new RgPipe()
-  public isToastOpen = false;
-  public messageToast = ''
-  public success = 'success'
+  private _pipePhone: PhonePipe
+  private _pipeCnpj: CnpjPipe
+  private _pipeCpf: CpfPipe
+  private _pipeCep: CepPipe
+  private _pipeRg: RgPipe
 
   constructor(private fb: FormBuilder,
     private router: Router,
     private clienteService: ClienteService) {
+
+    this._pipePhone = new PhonePipe()
+    this._pipeCnpj = new CnpjPipe()
+    this._pipeCpf = new CpfPipe()
+    this._pipeCep = new CepPipe()
+    this._pipeRg = new RgPipe()
+
+    this.isToastOpen = false
+    this.messageToast = ''
+    this.success = 'success'
+
     this.clienteForm = this.fb.group({
       cnpj: new FormControl('', { validators: Validators.required }),
       razaoSocial: new FormControl('', { validators: Validators.required, updateOn: 'blur' }),
@@ -48,37 +59,41 @@ export class AdicionarClientePage implements OnInit {
       bairro: new FormControl('', { validators: Validators.required, updateOn: 'blur' }),
       telefone: new FormControl('', { validators: Validators.required }),
       celular: new FormControl(''),
+      funcionarios: new FormControl(''),
       email: new FormControl('', { validators: [Validators.required, Validators.email] }),
     })
   }
 
   ngOnInit() {
     this.clienteForm.get("cnpj")?.valueChanges.subscribe((selectedValue: string) => {
-      this.clienteForm.get("cnpj")?.setValue(this.pipeCnpj.transform(selectedValue), { emitEvent: false })
+      this.clienteForm.get("cnpj")?.setValue(this._pipeCnpj.transform(selectedValue), { emitEvent: false })
     })
     this.clienteForm.get("cpf")?.valueChanges.subscribe((selectedValue: string) => {
-      this.clienteForm.get("cpf")?.setValue(this.pipeCpf.transform(selectedValue), { emitEvent: false })
+      this.clienteForm.get("cpf")?.setValue(this._pipeCpf.transform(selectedValue), { emitEvent: false })
     })
     this.clienteForm.get("rg")?.valueChanges.subscribe((selectedValue: string) => {
-      this.clienteForm.get("rg")?.setValue(this.pipeRg.transform(selectedValue), { emitEvent: false })
+      this.clienteForm.get("rg")?.setValue(this._pipeRg.transform(selectedValue), { emitEvent: false })
     })
     this.clienteForm.get("cep")?.valueChanges.subscribe((selectedValue: string) => {
-      this.clienteForm.get("cep")?.setValue(this.pipeCep.transform(selectedValue), { emitEvent: false })
+      this.clienteForm.get("cep")?.setValue(this._pipeCep.transform(selectedValue), { emitEvent: false })
     })
     this.clienteForm.get("telefone")?.valueChanges.subscribe((selectedValue: string) => {
-      this.clienteForm.get("telefone")?.setValue(this.pipePhone.transform(selectedValue), { emitEvent: false })
+      this.clienteForm.get("telefone")?.setValue(this._pipePhone.transform(selectedValue), { emitEvent: false })
     })
     this.clienteForm.get("celular")?.valueChanges.subscribe((selectedValue: string) => {
-      this.clienteForm.get("celular")?.setValue(this.pipePhone.transform(selectedValue), { emitEvent: false })
+      this.clienteForm.get("celular")?.setValue(this._pipePhone.transform(selectedValue), { emitEvent: false })
     })
     this.clienteForm.get("estado")?.valueChanges.subscribe((selectedValue: string) => {
       this.clienteForm.get("estado")?.setValue(selectedValue.toUpperCase(), { emitEvent: false })
     })
   }
 
-  public onSubmit = async () => {
+  public async onSubmit(): Promise<void> {
     if (this.clienteForm.valid) {
       const formValues = this.clienteForm.value as FormCliente;
+
+      formValues.funcionarios = Number(formValues.funcionarios)
+
       const { message, success } = await firstValueFrom(this.clienteService.create(formValues))
 
       this.messageToast = message
@@ -90,11 +105,10 @@ export class AdicionarClientePage implements OnInit {
         this.success = 'danger'
       }
       this.setOpen(true);
-
     }
   }
 
-  public voltar = () => {
+  public voltar(): void {
     this.router.navigate(['/cliente'])
   }
 
@@ -104,8 +118,8 @@ export class AdicionarClientePage implements OnInit {
   }
 
 
-  public setOpen(isOpen: boolean) {
-    this.isToastOpen = isOpen;
+  public setOpen(isOpen: boolean): void {
+    this.isToastOpen = isOpen
   }
 
 }

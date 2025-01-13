@@ -12,11 +12,11 @@ CREATE TABLE "new_servicos" (
     "codServico" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
     "descricao" TEXT NOT NULL,
-    "descricaoOrcamento" TEXT NOT NULL,
+    "descricaoProposta" TEXT NOT NULL,
     "valor" REAL NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-INSERT INTO "new_servicos" ("createdAt", "descricao", "descricaoOrcamento", "id", "nome", "valor") SELECT "createdAt", "descricao", "descricaoOrcamento", "id", "nome", "valor" FROM "servicos";
+INSERT INTO "new_servicos" ("createdAt", "descricao", "descricaoProposta", "id", "nome", "valor") SELECT "createdAt", "descricao", "descricaoProposta", "id", "nome", "valor" FROM "servicos";
 DROP TABLE "servicos";
 ALTER TABLE "new_servicos" RENAME TO "servicos";
 PRAGMA foreign_keys=ON;

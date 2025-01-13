@@ -1,11 +1,11 @@
 const express = require('express')
 
-const orcamentoModel = require('../../models/orcamento')
+const propostaModel = require('../../models/proposta')
 const app = express()
 
 app.get('/', async (req: any, res: any) => {
-  const orcamentos = await orcamentoModel.list()
-  app.send(orcamentos)
+  const propostas = await propostaModel.list()
+  app.send(propostas)
 });
 
 
@@ -13,21 +13,22 @@ app.post('/create', async (req: any, res: any) => {
 
   try {
 
-    const total = await orcamentoModel.count()
+    const total = await propostaModel.count()
 
     const anoAtual = new Date().getFullYear();
-    const codOrcamento = `O${total + 1}/${anoAtual}`
+    const codProposta = `P${total + 1}/${anoAtual}`
 
-    await orcamentoModel.create({ ...req.body, codOrcamento })
+    const retorno = await propostaModel.create({ ...req.body, codProposta })
 
     res.status(201).send({
-      message: `Orçamento cadastrado com sucesso!`,
+      message: `Proposta cadastrado com sucesso!`,
+      proposta: retorno,
       success: true
     })
 
   } catch (error) {
     return res.status(500).send({
-      message: 'Erro ao cadastrar Orçamento! ',
+      message: 'Erro ao cadastrar Proposta! Error: ' + error,
       success: false
     })
   }
@@ -37,19 +38,19 @@ app.post('/list', async (req: any, res: any) => {
   try {
     const { body } = req
     const { params } = body
-    let orcamentos = []
+    let propostas = []
     if (!params.filter) {
-      orcamentos = await orcamentoModel.list()
+      propostas = await propostaModel.list()
     } else {
-      orcamentos = await orcamentoModel.search(params.filter)
+      propostas = await propostaModel.search(params.filter)
     }
 
     res.status(200).send({
-      orcamentos
+      propostas
     })
   } catch (error) {
     return res.status(500).send({
-      message: 'Erro ao buscar a lista de Orçamento! ',
+      message: 'Erro ao buscar a lista de Proposta! ',
       success: false
     })
   }

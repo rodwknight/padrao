@@ -27,7 +27,7 @@ app.post('/create', async (req: any, res: any) => {
 
   } catch (error) {
     return res.status(500).send({
-      message: 'Erro ao cadastrar Cliente! ',
+      message: 'Erro ao cadastrar Cliente! Error:' + error,
       success: false
     })
   }

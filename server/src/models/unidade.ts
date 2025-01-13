@@ -13,7 +13,6 @@ const UnidadeModel = {
         })
     },
     create: async (data: any) => {
-        console.log('create models? ', data)
         await prisma.unidade.create({ data })
     },
     update: async (id: any, data: any) => {

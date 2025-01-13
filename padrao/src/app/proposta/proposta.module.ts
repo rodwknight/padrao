@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { OrcamentoPageRoutingModule } from './orcamento-routing.module';
+import { PropostaPageRoutingModule } from './proposta-routing.module';
 
-import { OrcamentoPage } from './orcamento.page';
+import { PropostaPage } from './proposta.page';
 import { MainContentComponent } from '../components/main-content/main-content.component';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { MainContentComponent } from '../components/main-content/main-content.co
     CommonModule,
     FormsModule,
     IonicModule,
-    OrcamentoPageRoutingModule,
+    PropostaPageRoutingModule,
     MainContentComponent
   ],
-  declarations: [OrcamentoPage]
+  declarations: [PropostaPage]
 })
-export class OrcamentoPageModule {}
+export class PropostaPageModule {}

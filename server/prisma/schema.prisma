@@ -84,29 +84,30 @@ model Servico {
   codServico String
   nome String
   descricao String
-  descricaoOrcamento String
+  descricaoProposta String
   valor Float
   createdAt DateTime @default(now())
   @@map("servicos")
 }
 
-model Orcamento {
+model Proposta {
   id String @id @default(uuid())
-  codOrcamento String
+  codProposta String
   idUnidade String
   idCliente String
   funcionarios Float
+  status Int @default(1)
+  deslocamento Boolean @default(false)
+  valorDeslocamento Float @default(0)
   createdAt DateTime @default(now())
-  @@map("orcamentos")
+  @@map("propostas")
 }
 
-model OrcamentoServico {
+model PropostaServico {
   id String @id @default(uuid())
-  idOrcamento String
+  idProposta String
   idServico String
   valor Float
   createdAt DateTime @default(now())
-  @@map("orcamentos_servicos")
+  @@map("propostas_servicos")
 }
-
-

@@ -11,12 +11,14 @@ import { Configuracao } from '../interfaces/configuracao';
 })
 export class ServicoService {
 
-  private localStorage = new LocalStorageService()
-  private URL = '';
+  private localStorage:LocalStorageService<unknown>
+  private URL:string
 
   constructor(private http: HttpClient,
     private router: Router
   ) {
+    this.localStorage = new LocalStorageService()
+    this.URL = ''
     this.getUrl()
   }
 

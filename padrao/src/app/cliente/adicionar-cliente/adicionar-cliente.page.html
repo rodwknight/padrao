@@ -28,6 +28,14 @@
             </ion-row>
             <ion-row>
               <ion-col>
+                <ion-input label="Nº Funcionarios" placeholder="0" formControlName="funcionarios" fill="solid"></ion-input>
+                <div *ngIf="isFieldInvalid('funcionarios')">
+                  <ion-chip *ngIf="clienteForm.get('funcionarios')?.errors?.['required']" color="danger">Nº de Funcionarios obrigatório!</ion-chip>
+                </div>   
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
                 <ion-input label="Representante Legal" placeholder="Representante Legal" formControlName="representante" fill="solid"></ion-input>
                 <div *ngIf="isFieldInvalid('representante')">
                   <ion-chip *ngIf="clienteForm.get('representante')?.errors?.['required']" color="danger">Representante Legal obrigatório!</ion-chip>

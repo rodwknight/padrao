@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CriarOrcamentoPageRoutingModule } from './criar-orcamento-routing.module';
+import { CriarPropostaPageRoutingModule } from './criar-proposta-routing.module';
 
-import { CriarOrcamentoPage } from './criar-orcamento.page';
+import { CriarPropostaPage } from './criar-proposta.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MainContentComponent } from 'src/app/components/main-content/main-content.component';
 
@@ -15,10 +15,10 @@ import { MainContentComponent } from 'src/app/components/main-content/main-conte
     CommonModule,
     FormsModule,
     IonicModule,
-    CriarOrcamentoPageRoutingModule,
+    CriarPropostaPageRoutingModule,
     ReactiveFormsModule,
     MainContentComponent
   ],
-  declarations: [CriarOrcamentoPage]
+  declarations: [CriarPropostaPage]
 })
-export class CriarOrcamentoPageModule {}
+export class CriarPropostaPageModule {}

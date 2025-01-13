@@ -53,11 +53,11 @@ export class ClientePage implements OnInit {
 
     loading.present()
 
-    const { unidades } = await lastValueFrom(this.clienteService.list())
+    const { clientes } = await lastValueFrom(this.clienteService.list())
 
     loading.dismiss()
 
-    return await unidades as FormCliente[]
+    return await clientes as FormCliente[]
   }
 
 }

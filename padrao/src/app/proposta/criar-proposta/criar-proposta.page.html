@@ -1,6 +1,6 @@
-<app-main-content menu-id="criar-orcamento" urlBack="/orcamento" title="Criar Orçamento">
+<app-main-content menu-id="criar-proposta" urlBack="/proposta" title="Criar Proposta">
   <ion-content [fullscreen]="true">
-    <form [formGroup]="orcamentoForm" (ngSubmit)="onSubmit()" class="login-form">
+    <form [formGroup]="propostaForm" (ngSubmit)="onSubmit()" class="login-form">
       <ion-card>
         <ion-card-content>
           <ion-accordion-group value="contratada">
@@ -21,6 +21,10 @@
                       <ion-select-option [value]="unidade" *ngFor="let unidade of unidades">{{unidade.codUnidade}} -
                         {{unidade.nomeFantasia}}</ion-select-option>
                     </ion-select>
+                    <div *ngIf="isFieldInvalid('unidade')">
+                      <ion-chip *ngIf="propostaForm.get('unidade')?.errors?.['required']" color="danger">Unidade
+                        obrigatória!</ion-chip>
+                    </div>
                   </ion-col>
                 </ion-row>
                 <ion-list *ngIf="unidadeSelecionada.codUnidade">
@@ -107,6 +111,10 @@
                       <ion-select-option [value]="cliente" *ngFor="let cliente of clientes">{{cliente.codCliente}} -
                         {{cliente.nomeFantasia}}</ion-select-option>
                     </ion-select>
+                    <div *ngIf="isFieldInvalid('cliente')">
+                      <ion-chip *ngIf="propostaForm.get('cliente')?.errors?.['required']" color="danger">Cliente
+                        obrigatório!</ion-chip>
+                    </div>
                   </ion-col>
                 </ion-row>
                 <ion-list *ngIf="clienteSelecionado.codCliente">
@@ -176,14 +184,24 @@
       <ion-card>
         <ion-card-header>
           <ion-card-title>
-            <h1>Orçamento</h1>
+            <h1>Proposta</h1>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-list lines="none">
+          <ion-list lines="none" aria-hidden="false">
             <ion-item>
-              <ion-input label="Nº Funcionarios:" placeholder="0" formControlName="funcionarios" aria-label="Número de Funcionarios" name="funcionarios"
-                [value]="funcionarios"></ion-input>
+              <ion-input label="Nº Funcionarios:" placeholder="0" formControlName="funcionarios"
+                aria-label="Número de Funcionarios" name="funcionarios" [value]="funcionarios"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-toggle labelPlacement="stacked" alignment="start" formControlName="deslocamento"
+                (ionChange)="alterarDeslocamento($event)">Haverá deslocamento?</ion-toggle>
+              <ion-input maxlength="8" label="Valor:" placeholder="0" formControlName="valorDeslocamento" fill="solid"
+                (ionBlur)="somaDeslocamento($event)"></ion-input>
+              <div *ngIf="isFieldInvalid('valorDeslocamento')">
+                <ion-chip *ngIf="propostaForm.get('valorDeslocamento')?.errors?.['required']" color="danger">Valor
+                  obrigatório!</ion-chip>
+              </div>
             </ion-item>
             <ion-item>
               <ion-icon (click)="adicionarServico()" slot="end" size="large" name="add-circle" color="primary"
@@ -203,10 +221,27 @@
               <ion-text slot="end">{{ servico.valor | currency : 'BRL' }}</ion-text>
             </ion-item>
             <ion-item>
-              <ion-label>
-                <h3>Total:</h3>
-                <p>{{ total | currency : 'BRL' }}</p>
-              </ion-label>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-label>
+                      <h3>Total Serviços: <span class="ion-color-light">{{ totalServicos | currency : 'BRL' }}</span>
+                      </h3>
+                    </ion-label>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-label *ngIf="propostaForm.get('deslocamento')?.value">
+                      <h3>Deslocamento: <span class="ion-color-light">R${{ propostaForm.get('valorDeslocamento')?.value
+                          }}</span></h3>
+                    </ion-label>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>Total: <span class="ion-color-light">{{ total | currency: 'BRL' }}</span></ion-col>
+                </ion-row>
+              </ion-grid>
             </ion-item>
           </ion-list>
         </ion-card-content>
@@ -219,7 +254,7 @@
             <ion-icon slot="end" name="close"></ion-icon>
           </ion-button>
           <ion-button fill="solid" color="primary" size="small" type="submit" shape="round">
-            Gerar Orçamento
+            Gerar Proposta
             <ion-icon slot="end" name="checkmark"></ion-icon>
           </ion-button>
         </ion-buttons>

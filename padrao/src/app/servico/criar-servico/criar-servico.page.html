@@ -28,10 +28,10 @@
             </ion-row>
             <ion-row>
               <ion-col>
-                <ion-input label="Descrição formal" placeholder="Descrição formal" formControlName="descricaoOrcamento"
+                <ion-input label="Descrição formal" placeholder="Descrição formal" formControlName="descricaoProposta"
                   fill="solid"></ion-input>
-                <div *ngIf="isFieldInvalid('descricaoOrcamento')">
-                  <ion-chip *ngIf="servicoForm.get('descricaoOrcamento')?.errors?.['required']" color="danger">Descrição formal obrigatória!</ion-chip>
+                <div *ngIf="isFieldInvalid('descricaoProposta')">
+                  <ion-chip *ngIf="servicoForm.get('descricaoProposta')?.errors?.['required']" color="danger">Descrição formal obrigatória!</ion-chip>
                 </div>
               </ion-col>
             </ion-row>
