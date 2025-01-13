@@ -94,9 +94,10 @@ export class CriarPropostaPage implements OnInit {
         idUnidade: unidade.id,
         funcionarios: this.funcionarios,
         deslocamento: this.propostaForm.get('deslocamento')?.value,
-        valorDeslocamento
+        valorDeslocamento,
+        servicos: this.listaServicosAdicionados
       }
-
+      
       const { message, success } = await firstValueFrom(this.propostaService.create(dados))
 
       this.messageToast = message

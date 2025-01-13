@@ -1,6 +1,7 @@
 const express = require('express')
 
 const propostaModel = require('../../models/proposta')
+const propostaServicoModel = require('../../models/proposta-servico')
 const app = express()
 
 app.get('/', async (req: any, res: any) => {
@@ -13,16 +14,32 @@ app.post('/create', async (req: any, res: any) => {
 
   try {
 
+    const { idCliente, idUnidade, funcionarios, deslocamento, valorDeslocamento, servicos } = req.body
     const total = await propostaModel.count()
-
     const anoAtual = new Date().getFullYear();
-    const codProposta = `P${total + 1}/${anoAtual}`
 
-    const retorno = await propostaModel.create({ ...req.body, codProposta })
+    const data = {
+      idCliente,
+      idUnidade,
+      funcionarios,
+      deslocamento,
+      valorDeslocamento,
+      codProposta: `P${total + 1}/${anoAtual}`
+    }
+
+    const proposta = await propostaModel.create(data)
+
+    for (let servico of servicos) {
+      await propostaServicoModel.create({
+        idProposta: proposta.id,
+        idServico: servico.id,
+        valor: servico.valor
+      })
+    }
 
     res.status(201).send({
       message: `Proposta cadastrado com sucesso!`,
-      proposta: retorno,
+      proposta,
       success: true
     })
 
