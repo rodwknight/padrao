@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
-import { FormProposta } from '../interfaces/form-proposta';
 import { lastValueFrom } from 'rxjs';
 import { LoadingController } from '@ionic/angular';
 import { PropostaService } from '../services/proposta.service';
+import { ListaProposta } from '../interfaces/lista-proposta';
+import { listaStatusProposta } from '../enums/status-proposta';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { PropostaService } from '../services/proposta.service';
 })
 export class PropostaPage implements OnInit {
 
+  public propostas: ListaProposta[]
   private _localStorage: LocalStorageService<unknown>
   private _loading: HTMLIonLoadingElement
 
@@ -23,6 +25,7 @@ export class PropostaPage implements OnInit {
     private loadingCtrl: LoadingController,
     private propostaService: PropostaService) {
 
+    this.propostas = [] as ListaProposta[]    
     this._localStorage = new LocalStorageService()
     this._loading = {} as HTMLIonLoadingElement
 
@@ -33,7 +36,7 @@ export class PropostaPage implements OnInit {
 
   async ngOnInit() {
     await this.resolveLoading()
-    this.buscaLista()
+    this.propostas = await this.buscaLista() as ListaProposta[]
   }
 
   public logout = (): void => {
@@ -47,7 +50,15 @@ export class PropostaPage implements OnInit {
     this.router.navigate(['/proposta/criar-proposta'])
   }
 
-  private async buscaLista(): Promise<FormProposta[]> {
+  public labelStatus(status:number): string {
+    return listaStatusProposta.get(status)?.label as string
+  }
+
+  public typeStatus(status:number): string {
+    return listaStatusProposta.get(status)?.type as string
+  }
+
+  private async buscaLista(): Promise<ListaProposta[]> {
 
     this._loading.present()
 
@@ -55,7 +66,7 @@ export class PropostaPage implements OnInit {
 
     this._loading.dismiss()
 
-    return await propostas as FormProposta[]
+    return await propostas as ListaProposta[]
   }
 
   private resolveLoading = async () => {

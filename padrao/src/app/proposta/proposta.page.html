@@ -6,20 +6,34 @@
       </ion-toolbar>
     </ion-header>
     <ion-list [inset]="true" class="ion-no-margin-vertical">
-      <ion-item detail="false"  >
+      <ion-item detail="false" *ngFor="let proposta of propostas">
         <ion-label>
-          <strong>O465/2024</strong>
-          <ion-text class="ion-text-uppercase">planet cap joinville ltda</ion-text>
+          <strong>{{ proposta.codProposta }}</strong>
+          <ion-text class="ion-text-uppercase">
+            <h3>{{proposta.cliente.codCliente}} - {{
+              proposta.cliente.nomeFantasia}}
+            </h3>
+          </ion-text>
+          <ion-text class="ion-text-wrap">
+            <h3>
+              {{proposta.unidade.codUnidade}} - {{
+              proposta.unidade.nomeFantasia}}
+            </h3>
+          </ion-text>
           <ion-note color="medium" class="ion-text-wrap">
-            Luiz Turnes
+            {{proposta.usuario.nome}}
           </ion-note>
         </ion-label>
         <div class="metadata-end-wrapper" slot="end">
-          <ion-chip color="danger" class="ion-chip-list" >Rejeitado</ion-chip>
-          <ion-note color="medium">06:11</ion-note>
+          <ion-chip [color]="typeStatus(proposta.status)" class="ion-chip-list">{{
+            labelStatus(proposta.status)}}</ion-chip>
+          <ion-note color="medium">{{ proposta.createdAt | date: 'dd/MM/yyyy' }}</ion-note>
         </div>
       </ion-item>
     </ion-list>
+    <ion-item *ngIf="propostas.length === 0">
+      <ion-label class="ion-text-center">Nenhuma proposta encontrada!</ion-label>
+    </ion-item>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button (click)="criarProposta()">
         <ion-icon name="add"></ion-icon>

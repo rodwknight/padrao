@@ -5,7 +5,31 @@ const prisma = new PrismaClient()
 const PropostaModel = {
 
     list: async (where: any = undefined) => {
-        return await prisma.proposta.findMany()
+        return await prisma.proposta.findMany({
+            select: {
+                id: true,
+                codProposta: true,
+                cliente: {
+                    select: {
+                        codCliente: true,
+                        nomeFantasia: true
+                    }
+                },
+                unidade: {
+                    select: {
+                        codUnidade: true,
+                        nomeFantasia: true
+                    }
+                },
+                usuario: {
+                    select: {
+                        nome: true
+                    },
+                },
+                status: true,
+                createdAt: true
+            }
+        })
     },
     get: async (id: any) => {
         return await prisma.proposta.findFirst({

@@ -40,9 +40,13 @@ export class LoginPage implements OnInit {
         const { username, password } = this.loginForm.value;
 
         try {
-          const { token } = await firstValueFrom(this.authService.login(username, password))
+          const { token, nome, usuarioId } = await firstValueFrom(this.authService.login(username, password))
           const localStorageService = new LocalStorageService()
           localStorageService.setItem('accesskey', token)        
+          localStorageService.setItem('usuario', {
+            nome,
+            usuarioId
+          })
 
           if (token) {
             this.router.navigate(['/home'])

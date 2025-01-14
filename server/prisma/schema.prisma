@@ -16,6 +16,7 @@ model Usuario {
   username String @unique
   password String
   empresaId String
+  propostas Proposta[]
   createdAt DateTime @default(now())
   @@map("usuarios")
   @@index([username, password])
@@ -49,6 +50,7 @@ model Unidade {
   celular String
   email String
   createdAt DateTime @default(now())
+  propostas Proposta[]
   @@map("unidades")
   @@index([id, codUnidade])
 }
@@ -75,6 +77,7 @@ model Cliente {
   email String
   funcionarios Int @default(0)
   createdAt DateTime @default(now())
+  propostas Proposta[]
   @@map("clientes")
   @@index([id, codCliente])
 }
@@ -87,6 +90,7 @@ model Servico {
   descricaoProposta String
   valor Float
   createdAt DateTime @default(now())
+  proposta_servidos PropostaServico[]
   @@map("servicos")
 }
 
@@ -95,11 +99,16 @@ model Proposta {
   codProposta String
   idUnidade String
   idCliente String
+  idUsuario String
   funcionarios Float
   status Int @default(1)
   deslocamento Boolean @default(false)
   valorDeslocamento Float @default(0)
   createdAt DateTime @default(now())
+  usuario Usuario @relation(fields: [idUsuario], references: [id])
+  cliente Cliente @relation(fields: [idCliente], references: [id])
+  unidade Unidade @relation(fields: [idUnidade], references: [id])  
+  proposta_servidos PropostaServico[]
   @@map("propostas")
 }
 
@@ -109,5 +118,7 @@ model PropostaServico {
   idServico String
   valor Float
   createdAt DateTime @default(now())
-  @@map("propostas_servicos")
+  proposta Proposta @relation(fields: [idProposta], references: [id])
+  servico Servico @relation(fields: [idServico],references: [id])
+  @@map("proposta_servicos")
 }

@@ -14,13 +14,14 @@ app.post('/create', async (req: any, res: any) => {
 
   try {
 
-    const { idCliente, idUnidade, funcionarios, deslocamento, valorDeslocamento, servicos } = req.body
+    const { idCliente, idUnidade, funcionarios, deslocamento, valorDeslocamento, servicos, idUsuario } = req.body
     const total = await propostaModel.count()
     const anoAtual = new Date().getFullYear();
 
     const data = {
       idCliente,
       idUnidade,
+      idUsuario,
       funcionarios,
       deslocamento,
       valorDeslocamento,
@@ -67,7 +68,7 @@ app.post('/list', async (req: any, res: any) => {
     })
   } catch (error) {
     return res.status(500).send({
-      message: 'Erro ao buscar a lista de Proposta! ',
+      message: 'Erro ao buscar a lista de Proposta! Error: ' + error,
       success: false
     })
   }

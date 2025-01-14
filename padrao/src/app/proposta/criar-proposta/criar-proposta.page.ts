@@ -12,6 +12,8 @@ import { ServicoService } from 'src/app/services/servico.service';
 import { FormProposta } from 'src/app/interfaces/form-proposta';
 import { PropostaService } from 'src/app/services/proposta.service';
 import { ValorPipe } from 'src/app/shared/currency-pipe/currency-pipe.pipe';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { UsuarioLogado } from 'src/app/interfaces/usuario-logado';
 
 @Component({
   selector: 'app-criar-proposta',
@@ -35,6 +37,7 @@ export class CriarPropostaPage implements OnInit {
   public servicoSelecionado: FormServico
   public listaServicosAdicionados: FormServico[]
   private _loading: HTMLIonLoadingElement
+  private _localStorage: LocalStorageService<unknown>
 
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -60,6 +63,7 @@ export class CriarPropostaPage implements OnInit {
     this.servicoSelecionado = {} as FormServico
     this.listaServicosAdicionados = [] as FormServico[]
     this._loading = {} as HTMLIonLoadingElement
+    this._localStorage = new LocalStorageService()
     this.propostaForm = this.fb.group({
       unidade: ['', Validators.required],
       cliente: ['', Validators.required],
@@ -85,19 +89,19 @@ export class CriarPropostaPage implements OnInit {
 
       formValues.funcionarios = Number(formValues.funcionarios)
 
-      const { cliente, unidade } = formValues
-
-      let valorDeslocamento = parseFloat((this.propostaForm.get('valorDeslocamento')?.value).replace('.', '').replace(',', '.'))
-
+      const { cliente, unidade } = formValues      
+      const { usuarioId } = this._localStorage.getItem('usuario') as UsuarioLogado
+      const valorDeslocamento = parseFloat((this.propostaForm.get('valorDeslocamento')?.value).replace('.', '').replace(',', '.'))
       const dados = {
         idCliente: cliente.id,
         idUnidade: unidade.id,
+        idUsuario: usuarioId,
         funcionarios: this.funcionarios,
         deslocamento: this.propostaForm.get('deslocamento')?.value,
         valorDeslocamento,
         servicos: this.listaServicosAdicionados
       }
-      
+
       const { message, success } = await firstValueFrom(this.propostaService.create(dados))
 
       this.messageToast = message
