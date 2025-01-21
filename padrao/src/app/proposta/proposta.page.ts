@@ -25,7 +25,7 @@ export class PropostaPage implements OnInit {
     private loadingCtrl: LoadingController,
     private propostaService: PropostaService) {
 
-    this.propostas = [] as ListaProposta[]    
+    this.propostas = [] as ListaProposta[]
     this._localStorage = new LocalStorageService()
     this._loading = {} as HTMLIonLoadingElement
 
@@ -50,12 +50,20 @@ export class PropostaPage implements OnInit {
     this.router.navigate(['/proposta/criar-proposta'])
   }
 
-  public labelStatus(status:number): string {
+  public labelStatus(status: number): string {
     return listaStatusProposta.get(status)?.label as string
   }
 
-  public typeStatus(status:number): string {
+  public typeStatus(status: number): string {
     return listaStatusProposta.get(status)?.type as string
+  }
+
+  public detalheProposta(proposta: ListaProposta): void {
+    this.router.navigate(['/proposta/detalhe-proposta'], {
+      state: {
+        proposta
+      }
+    })
   }
 
   private async buscaLista(): Promise<ListaProposta[]> {

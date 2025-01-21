@@ -99,6 +99,7 @@ export class CriarPropostaPage implements OnInit {
         funcionarios: this.funcionarios,
         deslocamento: this.propostaForm.get('deslocamento')?.value,
         valorDeslocamento,
+        total: this.total,
         servicos: this.listaServicosAdicionados
       }
 
@@ -184,16 +185,19 @@ export class CriarPropostaPage implements OnInit {
 
   public resolveValorTotal(): void {
 
-    let valorDeslocamento: string = this.propostaForm.get('valorDeslocamento')?.value
+    let valorDeslocamento: string = this.propostaForm.get('valorDeslocamento')?.value ? this.propostaForm.get('valorDeslocamento')?.value : '0'
     valorDeslocamento = (valorDeslocamento.replace('.', '')).replace(',', '.')
 
     let valorTotal = this.totalServicos + parseFloat(valorDeslocamento)
 
     this.total = parseFloat(valorTotal.toFixed(2))
+
   }
 
   private somaTotalServicos(): void {
     this.totalServicos = 0
+
+    console.log('somaTotalServicos')
 
     for (let servico of this.listaServicosAdicionados) {
       this.totalServicos = this.totalServicos + parseFloat((servico.valor as string))

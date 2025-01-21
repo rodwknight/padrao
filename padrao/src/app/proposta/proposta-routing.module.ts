@@ -11,7 +11,11 @@ const routes: Routes = [
   {
     path: 'criar-proposta',
     loadChildren: () => import('./criar-proposta/criar-proposta.module').then( m => m.CriarPropostaPageModule)
+  },  {
+    path: 'detalhe-proposta',
+    loadChildren: () => import('./detalhe-proposta/detalhe-proposta.module').then( m => m.DetalhePropostaPageModule)
   }
+
 ];
 
 @NgModule({

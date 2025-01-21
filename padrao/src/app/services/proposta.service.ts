@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Configuracao } from '../interfaces/configuracao';
 import { FormProposta } from '../interfaces/form-proposta';
 import { Observable } from 'rxjs';
+import { ListaProposta } from '../interfaces/lista-proposta';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,9 @@ export class PropostaService {
 
   public list(filter: any = undefined): Observable<any> {
     return this.http.post(`${this._URL}/proposta/list`, { params: { filter } })
+  }
+
+  public detalhe(id: string): Observable<any> {
+    return this.http.post(`${this._URL}/proposta/detalhe`, { params: { id } })
   }
 }

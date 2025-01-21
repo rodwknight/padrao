@@ -90,7 +90,7 @@ model Servico {
   descricaoProposta String
   valor Float
   createdAt DateTime @default(now())
-  proposta_servidos PropostaServico[]
+  propostaServicos PropostaServico[]
   @@map("servicos")
 }
 
@@ -104,11 +104,13 @@ model Proposta {
   status Int @default(1)
   deslocamento Boolean @default(false)
   valorDeslocamento Float @default(0)
+  total Int
+  dataEncerramento DateTime @default(now())
   createdAt DateTime @default(now())
   usuario Usuario @relation(fields: [idUsuario], references: [id])
   cliente Cliente @relation(fields: [idCliente], references: [id])
   unidade Unidade @relation(fields: [idUnidade], references: [id])  
-  proposta_servidos PropostaServico[]
+  propostaServicos PropostaServico[]
   @@map("propostas")
 }
 

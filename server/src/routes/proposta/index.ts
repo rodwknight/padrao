@@ -2,6 +2,7 @@ const express = require('express')
 
 const propostaModel = require('../../models/proposta')
 const propostaServicoModel = require('../../models/proposta-servico')
+const servicoModel = require('../../models/servico')
 const app = express()
 
 app.get('/', async (req: any, res: any) => {
@@ -14,8 +15,8 @@ app.post('/create', async (req: any, res: any) => {
 
   try {
 
-    const { idCliente, idUnidade, funcionarios, deslocamento, valorDeslocamento, servicos, idUsuario } = req.body
-    const total = await propostaModel.count()
+    const { idCliente, idUnidade, funcionarios, deslocamento, valorDeslocamento, servicos, idUsuario, total } = req.body
+    const _total = await propostaModel.count()
     const anoAtual = new Date().getFullYear();
 
     const data = {
@@ -25,7 +26,8 @@ app.post('/create', async (req: any, res: any) => {
       funcionarios,
       deslocamento,
       valorDeslocamento,
-      codProposta: `P${total + 1}/${anoAtual}`
+      total,
+      codProposta: `P${_total + 1}/${anoAtual}`
     }
 
     const proposta = await propostaModel.create(data)
@@ -36,6 +38,8 @@ app.post('/create', async (req: any, res: any) => {
         idServico: servico.id,
         valor: servico.valor
       })
+
+      await servicoModel.update(servico.id, {valor: servico.valor})
     }
 
     res.status(201).send({
@@ -69,6 +73,24 @@ app.post('/list', async (req: any, res: any) => {
   } catch (error) {
     return res.status(500).send({
       message: 'Erro ao buscar a lista de Proposta! Error: ' + error,
+      success: false
+    })
+  }
+})
+
+app.post('/detalhe', async (req: any, res: any) => {
+  try {
+    const { body } = req
+    const { params } = body
+
+    const proposta = await propostaModel.detalhe(params.id)
+
+    res.status(200).send({
+      proposta
+    })
+  } catch (error) {
+    return res.status(500).send({
+      message: 'Erro ao buscar a Detalhe da Proposta! Error: ' + error,
       success: false
     })
   }

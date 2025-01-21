@@ -13,7 +13,7 @@ interface ListaUsuario {
 }
 
 export interface ListaProposta extends Record<string, any> {
-    idProposta: number
+    id: string
     codProposta: string
     unidade: ListaUnidade
     cliente: ListaCliente 

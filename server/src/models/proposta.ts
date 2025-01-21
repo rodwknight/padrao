@@ -8,7 +8,7 @@ const PropostaModel = {
         return await prisma.proposta.findMany({
             select: {
                 id: true,
-                codProposta: true,
+                codProposta: true,                
                 cliente: {
                     select: {
                         codCliente: true,
@@ -76,6 +76,53 @@ const PropostaModel = {
             }
         })
     },
+    detalhe: async (id: string) => {
+        return await prisma.proposta.findUnique({
+            where: {
+                id
+            },
+            select: {
+                codProposta: true,
+                deslocamento: true,
+                funcionarios: true,
+                status: true,
+                valorDeslocamento: true,
+                total: true,
+                dataEncerramento: true,
+                createdAt: true,                
+                propostaServicos: {                    
+                    select: {
+                        valor: true,
+                        servico: {
+                            select: {
+                                codServico:true,
+                                descricao: true,
+                                nome: true,                                
+                            }
+                        }
+                    }
+                },
+                unidade: {
+                    select: {
+                        codUnidade: true,
+                        nomeFantasia: true
+                    }
+                },
+                cliente: {
+                    select: {
+                        codCliente: true,
+                        nomeFantasia: true
+                    }
+                },
+                usuario: {
+                    select: {
+                        nome: true
+                    }
+                }
+
+            }
+        })
+    }
 }
 
 module.exports = PropostaModel
