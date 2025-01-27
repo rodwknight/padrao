@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
-import { lastValueFrom } from 'rxjs';
-import { LoadingController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { PropostaService } from '../services/proposta.service';
 import { ListaProposta } from '../interfaces/lista-proposta';
 import { listaStatusProposta } from '../enums/status-proposta';
@@ -19,31 +18,28 @@ export class PropostaPage implements OnInit {
   public propostas: ListaProposta[]
   private _localStorage: LocalStorageService<unknown>
   private _loading: HTMLIonLoadingElement
+  private _toast: HTMLIonToastElement
 
-  constructor(private authService: AuthService,
-    private router: Router,
+  constructor(private router: Router,
     private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
     private propostaService: PropostaService) {
 
     this.propostas = [] as ListaProposta[]
     this._localStorage = new LocalStorageService()
     this._loading = {} as HTMLIonLoadingElement
+    this._toast = {} as HTMLIonToastElement
 
     if (!this._localStorage.exists('accesskey')) {
       this.router.navigate(['/'])
     }
+
   }
 
-  async ngOnInit() {
-    await this.resolveLoading()
+  ngOnInit() { }
+
+  async ionViewWillEnter() {
     this.propostas = await this.buscaLista() as ListaProposta[]
-  }
-
-  public logout = (): void => {
-    if (this._localStorage.exists('accesskey')) {
-      this.authService.logout()
-    }
-    this.router.navigate(['/'])
   }
 
   public criarProposta = (): void => {
@@ -66,11 +62,28 @@ export class PropostaPage implements OnInit {
     })
   }
 
+  public async aprovar(propostaSelecionada: ListaProposta) {
+    await this.resolveLoading()
+    this._loading.present()
+    const { propostas, success, message } = await firstValueFrom(this.propostaService.update(propostaSelecionada))
+    this._loading.dismiss()
+
+    if (success) {
+      this.propostas = propostas
+      await this.resolveToast('Proposta aprovada com sucesso!', 'success')
+      await this._toast.present()
+    } else {
+      await this.resolveToast(message, 'danger')
+      await this._toast.present()
+    }
+  }
+
   private async buscaLista(): Promise<ListaProposta[]> {
+    await this.resolveLoading()
 
     this._loading.present()
 
-    const { propostas } = await lastValueFrom(this.propostaService.list())
+    const { propostas } = await firstValueFrom(this.propostaService.list())
 
     this._loading.dismiss()
 
@@ -81,6 +94,16 @@ export class PropostaPage implements OnInit {
     this._loading = await this.loadingCtrl.create({
       message: 'Buscando propostas...'
     })
+  }
+
+
+  private async resolveToast(message: string, color: string) {
+    this._toast = await this.toastCtrl.create({
+      message,
+      color,
+      duration: 5000,
+      position: 'bottom',
+    });
   }
 
 }

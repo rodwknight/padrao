@@ -43,4 +43,12 @@ export class PropostaService {
   public detalhe(id: string): Observable<any> {
     return this.http.post(`${this._URL}/proposta/detalhe`, { params: { id } })
   }
+
+  public update(proposta: ListaProposta): Observable<any> {
+    const body = {
+      ...proposta,
+      status: 2
+    }
+    return this.http.patch(`${this._URL}/proposta/update`, body)
+  }
 }

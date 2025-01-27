@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title size="large" slot="start">Detalhe Proposta</ion-title>
         <div slot="end">
-          <ion-button>
+          <ion-button (click)="aprovarProposta()">
             <ion-icon slot="start" name="checkmark"></ion-icon>
             <ion-text>Aprovar</ion-text>
           </ion-button>
@@ -82,7 +82,7 @@
             <ion-col>Valor</ion-col>
           </ion-row>
           <ion-row *ngFor="let propostaServico of proposta.propostaServicos">
-            <ion-col size="9">{{propostaServico.servico.codServico}} - {{propostaServico.servico.descricao}}</ion-col>
+            <ion-col size="9">{{propostaServico.servicos.codServico}} - {{propostaServico.servicos.descricao}}</ion-col>
             <ion-col>{{propostaServico.valor | currency: 'BRL' }}</ion-col>
           </ion-row>
           <ion-row *ngIf="proposta.deslocamento">

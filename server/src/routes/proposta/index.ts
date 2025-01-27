@@ -1,60 +1,16 @@
 const express = require('express')
 
 const propostaModel = require('../../models/proposta')
-const propostaServicoModel = require('../../models/proposta-servico')
-const servicoModel = require('../../models/servico')
+
+
+const propostaCrtl = require('../../controllers/proposta.controller')
 const app = express()
 
-app.get('/', async (req: any, res: any) => {
-  const propostas = await propostaModel.list()
-  app.send(propostas)
-});
+
+app.get('/', propostaCrtl.getPropostas);
 
 
-app.post('/create', async (req: any, res: any) => {
-
-  try {
-
-    const { idCliente, idUnidade, funcionarios, deslocamento, valorDeslocamento, servicos, idUsuario, total } = req.body
-    const _total = await propostaModel.count()
-    const anoAtual = new Date().getFullYear();
-
-    const data = {
-      idCliente,
-      idUnidade,
-      idUsuario,
-      funcionarios,
-      deslocamento,
-      valorDeslocamento,
-      total,
-      codProposta: `P${_total + 1}/${anoAtual}`
-    }
-
-    const proposta = await propostaModel.create(data)
-
-    for (let servico of servicos) {
-      await propostaServicoModel.create({
-        idProposta: proposta.id,
-        idServico: servico.id,
-        valor: servico.valor
-      })
-
-      await servicoModel.update(servico.id, {valor: servico.valor})
-    }
-
-    res.status(201).send({
-      message: `Proposta cadastrado com sucesso!`,
-      proposta,
-      success: true
-    })
-
-  } catch (error) {
-    return res.status(500).send({
-      message: 'Erro ao cadastrar Proposta! Error: ' + error,
-      success: false
-    })
-  }
-})
+app.post('/create', propostaCrtl.createProposta)
 
 app.post('/list', async (req: any, res: any) => {
   try {
@@ -78,22 +34,8 @@ app.post('/list', async (req: any, res: any) => {
   }
 })
 
-app.post('/detalhe', async (req: any, res: any) => {
-  try {
-    const { body } = req
-    const { params } = body
+app.post('/detalhe', propostaCrtl.getPropostaDetail)
 
-    const proposta = await propostaModel.detalhe(params.id)
-
-    res.status(200).send({
-      proposta
-    })
-  } catch (error) {
-    return res.status(500).send({
-      message: 'Erro ao buscar a Detalhe da Proposta! Error: ' + error,
-      success: false
-    })
-  }
-})
+app.patch('/update', propostaCrtl.updateProposta)
 
 module.exports = app;

@@ -100,16 +100,17 @@ model Proposta {
   idUnidade String
   idCliente String
   idUsuario String
+  idContrato String
   funcionarios Float
   status Int @default(1)
   deslocamento Boolean @default(false)
   valorDeslocamento Float @default(0)
   total Int
-  dataEncerramento DateTime @default(now())
   createdAt DateTime @default(now())
-  usuario Usuario @relation(fields: [idUsuario], references: [id])
   cliente Cliente @relation(fields: [idCliente], references: [id])
-  unidade Unidade @relation(fields: [idUnidade], references: [id])  
+  unidade Unidade @relation(fields: [idUnidade], references: [id])
+  usuario Usuario @relation(fields: [idUsuario], references: [id])
+  contrato Contrato @relation(fields: [idContrato], references: [id])
   propostaServicos PropostaServico[]
   @@map("propostas")
 }
@@ -120,7 +121,17 @@ model PropostaServico {
   idServico String
   valor Float
   createdAt DateTime @default(now())
-  proposta Proposta @relation(fields: [idProposta], references: [id])
-  servico Servico @relation(fields: [idServico],references: [id])
+  propostas Proposta @relation(fields: [idProposta], references: [id])
+  servicos Servico @relation(fields: [idServico],references: [id])
   @@map("proposta_servicos")
+}
+
+model Contrato {
+  id String @id @default(uuid())
+  codContrato String
+  status Int @default(1)
+  dataFinal DateTime @default(now())
+  createdAt DateTime @default(now())
+  propostas Proposta []
+  @@map("contratos")
 }

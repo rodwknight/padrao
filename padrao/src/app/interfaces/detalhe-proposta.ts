@@ -1,6 +1,6 @@
 interface PropostaServicos {
     valor: number
-    servico: Servico
+    servicos: Servico
 }
 
 interface Servico {
@@ -24,6 +24,7 @@ interface Unidade {
 }
 
 export interface DetalheProposta {
+    id: string
     codProposta: string
     funcionarios: number    
     deslocamento: boolean

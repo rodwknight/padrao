@@ -8,7 +8,7 @@ const PropostaModel = {
         return await prisma.proposta.findMany({
             select: {
                 id: true,
-                codProposta: true,                
+                codProposta: true,
                 cliente: {
                     select: {
                         codCliente: true,
@@ -39,11 +39,14 @@ const PropostaModel = {
     create: async (data: any) => {
         return await prisma.proposta.create({ data })
     },
-    update: async (id: any, data: any) => {
-        await prisma.proposta.update({
+    update: async (id: string, data: any) => {
+
+        const query = {
             where: { id },
             data
-        })
+        }
+
+        await prisma.proposta.update(query)
     },
     delete: async (id: any) => {
         await prisma.proposta.delete({
@@ -82,22 +85,22 @@ const PropostaModel = {
                 id
             },
             select: {
+                id: true,
                 codProposta: true,
                 deslocamento: true,
                 funcionarios: true,
                 status: true,
                 valorDeslocamento: true,
                 total: true,
-                dataEncerramento: true,
-                createdAt: true,                
-                propostaServicos: {                    
+                createdAt: true,
+                propostaServicos: {
                     select: {
                         valor: true,
-                        servico: {
+                        servicos: {
                             select: {
-                                codServico:true,
+                                codServico: true,
                                 descricao: true,
-                                nome: true,                                
+                                nome: true,
                             }
                         }
                     }
