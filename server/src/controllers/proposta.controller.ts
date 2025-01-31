@@ -1,6 +1,7 @@
 const propostaModel = require('../models/proposta')
 const servicoModel = require('../models/servico')
 const contratoModel = require('../models/contrato')
+const ordemModel = require('../models/ordem')
 
 // Retorna todos as propostas
 const getPropostas = async (req: any, res: any): Promise<any> => {
@@ -51,17 +52,17 @@ const createProposta = async (req: any, res: any) => {
             valorDeslocamento: valorDeslocamento ? valorDeslocamento : 0,
             total,
             codProposta: `P${count + 1}/${anoAtual}`,
+            contrato: {
+                create: {
+                    codContrato: `CO${countContrato + 1}/${anoAtual}`,
+                    dataFinal: new Date(now.setFullYear(now.getFullYear() + 1)),
+                }
+            },
             propostaServicos: {
                 create: servicos.map((servico: any) => ({
                     idServico: servico.id,
                     valor: servico.valor,
                 }))
-            },
-            contrato: {
-                create: {
-                    codContrato: `C${countContrato + 1}/${anoAtual}`,
-                    dataFinal: new Date(now.setFullYear(now.getFullYear() + 1)) // Esse aqui vai mudar
-                }
             },
             cliente: {
                 connect: { id: idCliente }
@@ -99,16 +100,39 @@ const updateProposta = async (req: any, res: any) => {
 
         const { id, status } = req.body
         const now = new Date();
+        const countOrdem = await ordemModel.count()
+        const anoAtual = new Date().getFullYear();
+
+        const proposta = await propostaModel.get(id)
 
         let query: any
 
         if (status == 2) {
+
             query = {
                 status,
                 contrato: {
                     update: {
                         dataFinal: new Date(now.setFullYear(now.getFullYear() + 1)),
-                        status
+                        status,
+                        ordem: {
+                            create: {
+                                codOrdem: `O${countOrdem + 1}/${anoAtual}`,
+                                funcionarios: proposta.funcionarios,
+                                deslocamento: proposta.deslocamento,
+                                valorDeslocamento: proposta.valorDeslocamento,
+                                total: proposta.total,
+                                ordemServicos: {
+                                    create: proposta.propostaServicos.map((ps: any) => ({
+                                        idServico: ps.servicos.id,
+                                        valor: ps.valor,
+                                    }))
+                                },
+                                idCliente: proposta.cliente.id,
+                                idUnidade: proposta.unidade.id,
+                                idUsuario: proposta.usuario.id
+                            }
+                        }
                     }
                 }
             }
@@ -137,3 +161,4 @@ module.exports = {
     createProposta,
     updateProposta
 };
+

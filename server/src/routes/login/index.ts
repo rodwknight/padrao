@@ -60,7 +60,7 @@ app.post('/register', async (req: any, res: any) => {
     }
   );
 
-  res.status(201).send({ message: 'Usuário criado com sucesso', usuarioId: novoUsuario.id });
+  res.status(201).send({ message: 'Usuário criado com sucesso'});
 });
 
 module.exports = app;

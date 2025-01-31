@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
-import { firstValueFrom } from 'rxjs';
+import { ListaContrato } from '../interfaces/lista-contrato';
+import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-import { PropostaService } from '../services/proposta.service';
-import { ListaProposta } from '../interfaces/lista-proposta';
-import { listaStatusProposta } from '../enums/status-proposta';
-
+import { firstValueFrom } from 'rxjs';
+import { listaStatusContrato } from '../enums/status-contrato';
+import { ContratoService } from '../services/contrato.service';
 
 @Component({
-  selector: 'app-proposta',
-  templateUrl: './proposta.page.html',
-  styleUrls: ['./proposta.page.scss'],
+  selector: 'app-contrato',
+  templateUrl: './contrato.page.html',
+  styleUrls: ['./contrato.page.scss'],
 })
-export class PropostaPage implements OnInit {
+export class ContratoPage implements OnInit {
 
-  public propostas: ListaProposta[]
+  public contratos: ListaContrato[]
   private _localStorage: LocalStorageService<unknown>
   private _loading: HTMLIonLoadingElement
   private _toast: HTMLIonToastElement
@@ -23,9 +22,9 @@ export class PropostaPage implements OnInit {
   constructor(private router: Router,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private propostaService: PropostaService) {
+    private contratoService: ContratoService) {
 
-    this.propostas = [] as ListaProposta[]
+    this.contratos = [] as ListaContrato[]
     this._localStorage = new LocalStorageService()
     this._loading = {} as HTMLIonLoadingElement
     this._toast = {} as HTMLIonToastElement
@@ -33,43 +32,38 @@ export class PropostaPage implements OnInit {
     if (!this._localStorage.exists('accesskey')) {
       this.router.navigate(['/'])
     }
-
   }
 
   ngOnInit() { }
 
   async ionViewWillEnter() {
-    this.propostas = await this.buscaLista() as ListaProposta[]
-  }
-
-  public criarProposta = (): void => {
-    this.router.navigate(['/proposta/criar-proposta'])
+    this.contratos = await this.buscaLista()
   }
 
   public labelStatus(status: number): string {
-    return listaStatusProposta.get(status)?.label as string
+    return listaStatusContrato.get(status)?.label as string
   }
 
   public typeStatus(status: number): string {
-    return listaStatusProposta.get(status)?.type as string
+    return listaStatusContrato.get(status)?.type as string
   }
 
-  public detalheProposta(proposta: ListaProposta): void {
-    this.router.navigate(['/proposta/detalhe-proposta'], {
+  public detalheContrato(contrato: ListaContrato): void {
+    this.router.navigate(['/contrato/detalhe-contrato'], {
       state: {
-        proposta
+        contrato
       }
     })
   }
 
-  public async aprovar(propostaSelecionada: ListaProposta): Promise<void> {
+  public async aprovar(propostaSelecionada: ListaContrato): Promise<void> {
     await this.resolveLoading()
     this._loading.present()
-    const { propostas, success, message } = await firstValueFrom(this.propostaService.update(propostaSelecionada))
+    const { contratos, success, message } = await firstValueFrom(this.contratoService.update(propostaSelecionada))
     this._loading.dismiss()
 
     if (success) {
-      this.propostas = propostas
+      this.contratos = contratos
       await this.resolveToast('Proposta aprovada com sucesso!', 'success')
       await this._toast.present()
     } else {
@@ -78,24 +72,36 @@ export class PropostaPage implements OnInit {
     }
   }
 
-  private async buscaLista(): Promise<ListaProposta[]> {
+  private async buscaLista(): Promise<ListaContrato[]> {
     await this.resolveLoading()
 
     this._loading.present()
 
-    const { propostas } = await firstValueFrom(this.propostaService.list())
+    const { contratos } = await firstValueFrom(this.contratoService.list())
+
+    const retorno = await contratos.map((contrato: ListaContrato) => {
+
+      const { propostas: [proposta] } = contrato
+
+      return {
+        id: contrato.id,
+        codContrato: contrato.codContrato,
+        status: contrato.status,
+        ...proposta,
+        createAt: contrato.createdAt
+      }
+    }) as ListaContrato[]
 
     this._loading.dismiss()
 
-    return await propostas as ListaProposta[]
+    return retorno
   }
 
   private resolveLoading = async (): Promise<void> => {
     this._loading = await this.loadingCtrl.create({
-      message: 'Buscando propostas...'
+      message: 'Buscando contratos...'
     })
   }
-
 
   private async resolveToast(message: string, color: string): Promise<void> {
     this._toast = await this.toastCtrl.create({

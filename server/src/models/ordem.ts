@@ -2,13 +2,13 @@ const { PrismaClient } = require("@prisma/client")
 
 const prisma = new PrismaClient()
 
-const PropostaModel = {
+const OrdemModel = {
 
     list: async (where: any = undefined) => {
-        return await prisma.proposta.findMany({
+        return await prisma.ordem.findMany({
             select: {
                 id: true,
-                codProposta: true,
+                codOrdem: true,
                 cliente: {
                     select: {
                         codCliente: true,
@@ -32,54 +32,12 @@ const PropostaModel = {
         })
     },
     get: async (id: any) => {
-        return await prisma.proposta.findFirst({
-            where: { id },
-            select: {             
-                codProposta: true,
-                deslocamento: true,
-                funcionarios: true,
-                status: true,
-                valorDeslocamento: true,
-                total: true,
-                propostaServicos: {
-                    select: {
-                        valor: true,
-                        servicos: {
-                            select: {
-                                id: true,
-                                codServico: true,
-                                descricao: true,
-                                nome: true,
-                            }
-                        }
-                    }
-
-                },
-                unidade: {
-                    select: {
-                        id: true,
-                        codUnidade: true,
-                        nomeFantasia: true
-                    }
-                },
-                cliente: {
-                    select: {
-                        id: true,
-                        codCliente: true,
-                        nomeFantasia: true
-                    }
-                },
-                usuario: {
-                    select: {
-                        id: true,
-                        nome: true
-                    }
-                }
-            }
+        return await prisma.ordem.findFirst({
+            where: { id }
         })
     },
     create: async (data: any) => {
-        return await prisma.proposta.create({ data })
+        return await prisma.ordem.create({ data })
     },
     update: async (id: string, data: any) => {
 
@@ -88,18 +46,18 @@ const PropostaModel = {
             data
         }
 
-        await prisma.proposta.update(query)
+        await prisma.ordem.update(query)
     },
     delete: async (id: any) => {
-        await prisma.proposta.delete({
+        await prisma.ordem.delete({
             where: { id }
         })
     },
     createMany: async (data: any) => {
-        await prisma.proposta.createMany({ data })
+        await prisma.ordem.createMany({ data })
     },
     findFirst: async (data: any) => {
-        return await prisma.proposta.findFirst({
+        return await prisma.ordem.findFirst({
             where: data
         })
     },
@@ -107,35 +65,35 @@ const PropostaModel = {
         if (prop && value) {
             const stringWhere = `{ ${prop}: ${value}}`;
             const where = JSON.stringify(stringWhere)
-            return await prisma.proposta.count({ where })
+            return await prisma.ordem.count({ where })
         } else {
-            return await prisma.proposta.count()
+            return await prisma.ordem.count()
         }
     },
     search: async (filter: string) => {
-        return await prisma.proposta.findMany({
+        return await prisma.ordem.findMany({
             where: {
                 OR: [
-                    { codProposta: { contains: filter } }
+                    { codOrdem: { contains: filter } }
                 ]
             }
         })
     },
     detalhe: async (id: string) => {
-        return await prisma.proposta.findUnique({
+        return await prisma.ordem.findUnique({
             where: {
                 id
             },
             select: {
                 id: true,
-                codProposta: true,
+                codOrdem: true,
                 deslocamento: true,
                 funcionarios: true,
                 status: true,
                 valorDeslocamento: true,
                 total: true,
                 createdAt: true,
-                propostaServicos: {
+                ordemServicos: {
                     select: {
                         valor: true,
                         servicos: {
@@ -164,9 +122,10 @@ const PropostaModel = {
                         nome: true
                     }
                 }
+
             }
         })
     }
 }
 
-module.exports = PropostaModel
+module.exports = OrdemModel

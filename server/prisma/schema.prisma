@@ -11,127 +11,174 @@ datasource db {
 }
 
 model Usuario {
-  id String @id @default(uuid())
-  nome String
-  username String @unique
-  password String
+  id        String     @id @default(uuid())
+  nome      String
+  username  String     @unique
+  password  String
   empresaId String
   propostas Proposta[]
-  createdAt DateTime @default(now())
-  @@map("usuarios")
+  Ordem     Ordem[]
+  createdAt DateTime   @default(now())
+
   @@index([username, password])
+  @@map("usuarios")
 }
 
 model Empresa {
-  id String @id @default(uuid())
-  nome String
+  id        String   @id @default(uuid())
+  nome      String
   createdAt DateTime @default(now())
+
   @@map("empresas")
 }
 
 model Unidade {
-  id String @id @default(uuid())
-  codUnidade String @unique
-  cnpj String
-  razaoSocial String
-  nomeFantasia String
+  id            String     @id @default(uuid())
+  codUnidade    String     @unique
+  cnpj          String
+  razaoSocial   String
+  nomeFantasia  String
   representante String
-  rg String
-  cpf String
-  rua String
-  numero String
-  complemento String
-  pais String
-  estado String
-  cidade String
-  cep String
-  bairro String
-  telefone String
-  celular String
-  email String
-  createdAt DateTime @default(now())
-  propostas Proposta[]
-  @@map("unidades")
+  rg            String
+  cpf           String
+  rua           String
+  numero        String
+  complemento   String
+  pais          String
+  estado        String
+  cidade        String
+  cep           String
+  bairro        String
+  telefone      String
+  celular       String
+  email         String
+  createdAt     DateTime   @default(now())
+  propostas     Proposta[]
+  Ordem         Ordem[]
+
   @@index([id, codUnidade])
+  @@map("unidades")
 }
 
 model Cliente {
-  id String @id @default(uuid())
-  codCliente String @unique
-  cnpj String
-  razaoSocial String
-  nomeFantasia String
+  id            String     @id @default(uuid())
+  codCliente    String     @unique
+  cnpj          String
+  razaoSocial   String
+  nomeFantasia  String
   representante String
-  rg String
-  cpf String
-  rua String
-  numero String
-  complemento String
-  pais String
-  estado String
-  cidade String
-  cep String
-  bairro String
-  telefone String
-  celular String
-  email String
-  funcionarios Int @default(0)
-  createdAt DateTime @default(now())
-  propostas Proposta[]
-  @@map("clientes")
+  rg            String
+  cpf           String
+  rua           String
+  numero        String
+  complemento   String
+  pais          String
+  estado        String
+  cidade        String
+  cep           String
+  bairro        String
+  telefone      String
+  celular       String
+  email         String
+  funcionarios  Int        @default(0)
+  createdAt     DateTime   @default(now())
+  propostas     Proposta[]
+  Ordem         Ordem[]
+
   @@index([id, codCliente])
+  @@map("clientes")
 }
 
 model Servico {
-  id String @id @default(uuid())
-  codServico String
-  nome String
-  descricao String
+  id                String            @id @default(uuid())
+  codServico        String
+  nome              String
+  descricao         String
   descricaoProposta String
-  valor Float
-  createdAt DateTime @default(now())
-  propostaServicos PropostaServico[]
+  valor             Float
+  createdAt         DateTime          @default(now())
+  propostaServicos  PropostaServico[]
+  ordemServicos     OrdemServico[]
+
   @@map("servicos")
 }
 
 model Proposta {
-  id String @id @default(uuid())
-  codProposta String
-  idUnidade String
-  idCliente String
-  idUsuario String
-  idContrato String
-  funcionarios Float
-  status Int @default(1)
-  deslocamento Boolean @default(false)
-  valorDeslocamento Float @default(0)
-  total Int
-  createdAt DateTime @default(now())
-  cliente Cliente @relation(fields: [idCliente], references: [id])
-  unidade Unidade @relation(fields: [idUnidade], references: [id])
-  usuario Usuario @relation(fields: [idUsuario], references: [id])
-  contrato Contrato @relation(fields: [idContrato], references: [id])
-  propostaServicos PropostaServico[]
+  id                String            @id @default(uuid())
+  codProposta       String
+  idUnidade         String
+  idCliente         String
+  idUsuario         String
+  idContrato        String
+  funcionarios      Float
+  status            Int               @default(1)
+  deslocamento      Boolean           @default(false)
+  valorDeslocamento Float             @default(0)
+  total             Int
+  createdAt         DateTime          @default(now())
+  cliente           Cliente           @relation(fields: [idCliente], references: [id])
+  unidade           Unidade           @relation(fields: [idUnidade], references: [id])
+  usuario           Usuario           @relation(fields: [idUsuario], references: [id])
+  contrato          Contrato          @relation(fields: [idContrato], references: [id])
+  propostaServicos  PropostaServico[]
+
   @@map("propostas")
 }
 
 model PropostaServico {
-  id String @id @default(uuid())
+  id         String   @id @default(uuid())
   idProposta String
-  idServico String
-  valor Float
-  createdAt DateTime @default(now())
-  propostas Proposta @relation(fields: [idProposta], references: [id])
-  servicos Servico @relation(fields: [idServico],references: [id])
+  idServico  String
+  valor      Float
+  createdAt  DateTime @default(now())
+  propostas  Proposta @relation(fields: [idProposta], references: [id])
+  servicos   Servico  @relation(fields: [idServico], references: [id])
+
   @@map("proposta_servicos")
 }
 
 model Contrato {
-  id String @id @default(uuid())
+  id          String     @id @default(uuid())
   codContrato String
-  status Int @default(1)
-  dataFinal DateTime @default(now())
-  createdAt DateTime @default(now())
-  propostas Proposta []
+  status      Int        @default(1)
+  idOrdem     String?
+  dataFinal   DateTime   @default(now())
+  createdAt   DateTime   @default(now())
+  propostas   Proposta[]
+  ordem       Ordem?     @relation(fields: [idOrdem], references: [id])
+
   @@map("contratos")
+}
+
+model Ordem {
+  id                String         @id @default(uuid())
+  codOrdem          String
+  status            Int            @default(1)
+  idUnidade         String
+  idCliente         String
+  idUsuario         String
+  funcionarios      Float
+  deslocamento      Boolean        @default(false)
+  valorDeslocamento Float          @default(0)
+  total             Int
+  createdAt         DateTime       @default(now())
+  cliente           Cliente        @relation(fields: [idCliente], references: [id])
+  unidade           Unidade        @relation(fields: [idUnidade], references: [id])
+  usuario           Usuario        @relation(fields: [idUsuario], references: [id])
+  contratos         Contrato[]
+  ordemServicos     OrdemServico[]
+
+  @@map("ordens")
+}
+
+model OrdemServico {
+  id        String   @id @default(uuid())
+  idServico String
+  idOrdem   String
+  valor     Float
+  createdAt DateTime @default(now())
+  servicos  Servico  @relation(fields: [idServico], references: [id])
+  Ordem     Ordem    @relation(fields: [idOrdem], references: [id])
+
+  @@map("ordem_servicos")
 }

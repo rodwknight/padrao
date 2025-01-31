@@ -1,0 +1,100 @@
+<app-main-content urlBack="/contrato" menu-id="detalhe-contrato">
+  <!--ion-content [fullscreen]="true">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title size="large" slot="start">Detalhe Contrato</ion-title>
+        <div slot="end">
+          <ion-button (click)="aprovarContrato()">
+            <ion-icon slot="start" name="checkmark"></ion-icon>
+            <ion-text>Aprovar</ion-text>
+          </ion-button>
+          <ion-button color="danger" class="ion-margin-end">
+            <ion-icon slot="start" name="close"></ion-icon>
+            <ion-text>Reprovar</ion-text>
+          </ion-button>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <h1>Geral</h1>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list [inset]="true" lines="none" class="ion-no-margin-vertical">
+          <ion-item>
+            <ion-label slot="start" class="ion-no-margin">
+              <strong>{{ contrato.codContrato }}</strong>
+            </ion-label>
+            <div class="metadata-end-wrapper" slot="end">
+              <ion-chip [color]="typeStatus(contrato['status'])" class="ion-chip-list">{{
+                labelStatus(contrato['status'])}}</ion-chip>
+              <ion-note color="medium">{{ contrato.createdAt | date: 'dd/MM/yyyy' }}</ion-note>
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-label slot="start">
+              Nº de funcionários:
+              <ion-text color="primary">
+                {{contrato.funcionarios}}
+              </ion-text>
+            </ion-label>
+
+          </ion-item>
+          <ion-item *ngIf="contrato.usuario">
+            <ion-label slot="start">
+              Vendedor:
+              <ion-text color="primary">
+                {{contrato.usuario.nome}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="contrato.unidade">
+            <ion-label slot="start">
+              Contratante:
+              <ion-text color="primary">
+                {{contrato.unidade.codUnidade}} - {{contrato.unidade.nomeFantasia}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="contrato.cliente">
+            <ion-label slot="start">
+              Contratado:
+              <ion-text color="primary">
+                {{contrato.cliente.codCliente}} - {{contrato.cliente.nomeFantasia}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <h1>Serviços</h1>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="9">Nome</ion-col>
+            <ion-col>Valor</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let propostaServico of contrato.propostaServicos">
+            <ion-col size="9">{{propostaServico.servicos.codServico}} - {{propostaServico.servicos.descricao}}</ion-col>
+            <ion-col>{{propostaServico.valor | currency: 'BRL' }}</ion-col>
+          </ion-row>
+          <ion-row *ngIf="contrato.deslocamento">
+            <ion-col size="9">Deslocamento</ion-col>
+            <ion-col>{{contrato.valorDeslocamento | currency: 'BRL'}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9"><strong>Total</strong></ion-col>
+            <ion-col><strong>{{contrato.total | currency: 'BRL'}}</strong></ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ion-content-->
+</app-main-content>

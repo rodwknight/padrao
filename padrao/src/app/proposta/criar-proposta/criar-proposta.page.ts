@@ -197,8 +197,6 @@ export class CriarPropostaPage implements OnInit {
   private somaTotalServicos(): void {
     this.totalServicos = 0
 
-    console.log('somaTotalServicos')
-
     for (let servico of this.listaServicosAdicionados) {
       this.totalServicos = this.totalServicos + parseFloat((servico.valor as string))
     }
