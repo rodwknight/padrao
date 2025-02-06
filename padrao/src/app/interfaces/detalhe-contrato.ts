@@ -1,39 +1,21 @@
-interface PropostaServicos {
-    valor: number
-    servicos: Servico
-}
-
-interface Servico {
-    codServico: string
-    nome: string
-    descricao: string
-}
-
-interface Usuario {
-    nome: string
-}
-
-interface Cliente {
-    codCliente: string
-    nomeFantasia: string
-}
-
-interface Unidade {
-    codUnidade: string
-    nomeFantasia: string
-}
+import { PropostasServicos } from "./propostas-servicos"
 
 export interface DetalheContrato {
     id: string
     codContrato: string
-    funcionarios: number    
+    funcionarios: number
     deslocamento: boolean
     valorDeslocamento: number
     total: number
     createdAt: Date
-    propostaServicos: PropostaServicos[]
     status: number
-    usuario: Usuario
-    cliente: Cliente
-    unidade: Unidade
+    idProposta: string
+    codProposta: string
+    statusProposta: number
+    servicos: PropostasServicos[]
+    codUnidade: string
+    nomeUnidade: string
+    codCliente: string
+    nomeCliente: string
+    nomeUsuario: string
 }

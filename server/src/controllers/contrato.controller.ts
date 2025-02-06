@@ -40,7 +40,50 @@ const getContratoDetail = async (req: any, res: any): Promise<any> => {
         const { body } = req
         const { params } = body
 
-        const contrato = await contratoModel.detalhe(params.id)
+        const {
+            codContrato,
+            status,
+            createdAt,
+            propostas: [{
+                codProposta,
+                deslocamento,
+                funcionarios,
+                statusProposta,
+                valorDeslocamento,
+                total,
+                propostaServicos: servicos,
+                unidade: {
+                    codUnidade,
+                    nomeFantasia: nomeUnidade
+                },
+                cliente: {
+                    codCliente,
+                    nomeFantasia: nomeCliente
+                },
+                usuario: {
+                    nome: nomeUsuario
+                }
+            }]
+
+        } = await contratoModel.detalhe(params.id)
+
+        const contrato = {
+            codContrato,
+            status,
+            createdAt,
+            codProposta,
+            deslocamento,
+            funcionarios,
+            statusProposta,
+            valorDeslocamento,
+            total,
+            servicos,
+            codCliente,
+            nomeCliente,
+            codUnidade,
+            nomeUnidade,
+            nomeUsuario
+        }
 
         res.status(200).send({
             contrato

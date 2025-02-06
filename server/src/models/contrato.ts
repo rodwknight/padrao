@@ -10,7 +10,7 @@ const ContratoModel = {
                 id: true,
                 codContrato: true,
                 propostas: {
-                    take: 1, 
+                    take: 1,
                     orderBy: { createdAt: 'desc' },
                     select: {
                         unidade: {
@@ -72,6 +72,60 @@ const ContratoModel = {
         } else {
             return await prisma.contrato.count()
         }
+    },
+    detalhe: async (id: string) => {
+        return await prisma.contrato.findUnique({
+            where: {
+                id
+            },
+            select: {
+                id: true,
+                codContrato: true,
+                status: true,
+                createdAt: true,
+                propostas: {
+                    select: {
+                        id: true,
+                        codProposta: true,
+                        deslocamento: true,
+                        funcionarios: true,
+                        status: true,
+                        valorDeslocamento: true,
+                        total: true,
+                        createdAt: true,
+                        propostaServicos: {
+                            select: {
+                                valor: true,
+                                servicos: {
+                                    select: {
+                                        codServico: true,
+                                        descricao: true,
+                                        nome: true,
+                                    }
+                                }
+                            }
+                        },
+                        unidade: {
+                            select: {
+                                codUnidade: true,
+                                nomeFantasia: true
+                            }
+                        },
+                        cliente: {
+                            select: {
+                                codCliente: true,
+                                nomeFantasia: true
+                            }
+                        },
+                        usuario: {
+                            select: {
+                                nome: true
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 }
 

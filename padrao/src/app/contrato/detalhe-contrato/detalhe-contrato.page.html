@@ -1,5 +1,5 @@
 <app-main-content urlBack="/contrato" menu-id="detalhe-contrato">
-  <!--ion-content [fullscreen]="true">
+  <ion-content [fullscreen]="true">
     <ion-header class="ion-no-border">
       <ion-toolbar>
         <ion-title size="large" slot="start">Detalhe Contrato</ion-title>
@@ -33,6 +33,14 @@
               <ion-note color="medium">{{ contrato.createdAt | date: 'dd/MM/yyyy' }}</ion-note>
             </div>
           </ion-item>
+          <ion-item *ngIf="contrato.codProposta">
+            <ion-label slot="start">
+              Proposta:
+              <ion-text color="primary">
+                {{contrato.codProposta}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
           <ion-item>
             <ion-label slot="start">
               Nº de funcionários:
@@ -42,27 +50,27 @@
             </ion-label>
 
           </ion-item>
-          <ion-item *ngIf="contrato.usuario">
+          <ion-item *ngIf="contrato.nomeUsuario">
             <ion-label slot="start">
               Vendedor:
               <ion-text color="primary">
-                {{contrato.usuario.nome}}
+                {{contrato.nomeUsuario}}
               </ion-text>
             </ion-label>
           </ion-item>
-          <ion-item *ngIf="contrato.unidade">
+          <ion-item *ngIf="contrato.nomeUnidade">
             <ion-label slot="start">
               Contratante:
               <ion-text color="primary">
-                {{contrato.unidade.codUnidade}} - {{contrato.unidade.nomeFantasia}}
+                {{contrato.codUnidade}} - {{contrato.nomeUnidade}}
               </ion-text>
             </ion-label>
           </ion-item>
-          <ion-item *ngIf="contrato.cliente">
+          <ion-item *ngIf="contrato.nomeCliente">
             <ion-label slot="start">
               Contratado:
               <ion-text color="primary">
-                {{contrato.cliente.codCliente}} - {{contrato.cliente.nomeFantasia}}
+                {{contrato.codCliente}} - {{contrato.nomeCliente}}
               </ion-text>
             </ion-label>
           </ion-item>
@@ -81,7 +89,7 @@
             <ion-col size="9">Nome</ion-col>
             <ion-col>Valor</ion-col>
           </ion-row>
-          <ion-row *ngFor="let propostaServico of contrato.propostaServicos">
+          <ion-row *ngFor="let propostaServico of contrato.servicos">
             <ion-col size="9">{{propostaServico.servicos.codServico}} - {{propostaServico.servicos.descricao}}</ion-col>
             <ion-col>{{propostaServico.valor | currency: 'BRL' }}</ion-col>
           </ion-row>
@@ -96,5 +104,5 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-  </ion-content-->
-</app-main-content>
+  </ion-content>
+</app-main-content >
