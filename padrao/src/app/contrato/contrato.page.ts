@@ -56,15 +56,15 @@ export class ContratoPage implements OnInit {
     })
   }
 
-  public async aprovar(propostaSelecionada: ListaContrato): Promise<void> {
+  public async aprovar(contratoSelecionada: ListaContrato): Promise<void> {
     await this.resolveLoading()
     this._loading.present()
-    const { contratos, success, message } = await firstValueFrom(this.contratoService.update(propostaSelecionada))
+    const { contratos, success, message } = await firstValueFrom(this.contratoService.update(contratoSelecionada))
     this._loading.dismiss()
 
     if (success) {
       this.contratos = contratos
-      await this.resolveToast('Proposta aprovada com sucesso!', 'success')
+      await this.resolveToast('Contrato aprovado com sucesso!', 'success')
       await this._toast.present()
     } else {
       await this.resolveToast(message, 'danger')

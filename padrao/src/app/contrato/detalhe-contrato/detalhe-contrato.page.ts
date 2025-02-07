@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { listaStatusContrato } from 'src/app/enums/status-contrato';
 import { DetalheContrato } from 'src/app/interfaces/detalhe-contrato';
@@ -17,15 +17,18 @@ export class DetalheContratoPage implements OnInit {
   public contrato: DetalheContrato
   private _contrato: ListaContrato
   private _loading: HTMLIonLoadingElement
+  private _toast: HTMLIonToastElement
 
   constructor(private router: Router,
     private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
     private contratoService: ContratoService) {
     const navigate = this.router.getCurrentNavigation()
 
     this.contrato = {} as DetalheContrato
     this._contrato = navigate?.extras.state?.['contrato'] as ListaContrato
     this._loading = {} as HTMLIonLoadingElement
+    this._toast = {} as HTMLIonToastElement
   }
 
   async ngOnInit() {
@@ -41,8 +44,23 @@ export class DetalheContratoPage implements OnInit {
     return listaStatusContrato.get(status)?.type as string
   }
 
-  public aprovarContrato() {
-    
+  public async aprovarContrato() {
+    await this.resolveLoading()
+    this._loading.present()
+    const { contratos: [contratos], success, message } = await firstValueFrom(this.contratoService.update(this.contrato))
+    this._loading.dismiss()
+
+    if (success) {
+      this.contrato = {
+        ...this.contrato,
+        status: contratos.status
+      }
+      await this.resolveToast('Contrato aprovado com sucesso!', 'success')
+      await this._toast.present()
+    } else {
+      await this.resolveToast(message, 'danger')
+      await this._toast.present()
+    }
   }
 
   private async buscaDetalheContrato(): Promise<DetalheContrato> {
@@ -60,6 +78,15 @@ export class DetalheContratoPage implements OnInit {
     this._loading = await this.loadingCtrl.create({
       message: 'Buscando contratos...'
     })
+  }
+
+  private async resolveToast(message: string, color: string) {
+    this._toast = await this.toastCtrl.create({
+      message,
+      color,
+      duration: 5000,
+      position: 'bottom',
+    });
   }
 
 }

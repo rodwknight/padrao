@@ -41,6 +41,7 @@ const getContratoDetail = async (req: any, res: any): Promise<any> => {
         const { params } = body
 
         const {
+            id,
             codContrato,
             status,
             createdAt,
@@ -68,6 +69,7 @@ const getContratoDetail = async (req: any, res: any): Promise<any> => {
         } = await contratoModel.detalhe(params.id)
 
         const contrato = {
+            id,
             codContrato,
             status,
             createdAt,

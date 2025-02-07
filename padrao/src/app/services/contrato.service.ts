@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Configuracao } from '../interfaces/configuracao';
 import { Observable } from 'rxjs';
+import { DetalheContrato } from '../interfaces/detalhe-contrato';
 import { ListaContrato } from '../interfaces/lista-contrato';
 
 @Injectable({
@@ -38,7 +39,7 @@ export class ContratoService {
     return this.http.post(`${this._URL}/contrato/detalhe`, { params: { id } })
   }
 
-  public update(contrato: ListaContrato): Observable<any> {
+  public update(contrato: DetalheContrato | ListaContrato): Observable<any> {
     const body = {
       ...contrato,
       status: 2
