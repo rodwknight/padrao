@@ -47,7 +47,7 @@ export class DetalhePropostaPage implements OnInit {
   public async aprovarProposta() {
     await this.resolveLoading()
     this._loading.present()
-    const { propostas: [propostas], success, message } = await firstValueFrom(this.propostaService.update(this.proposta))
+    const { propostas: [propostas], success, message } = await firstValueFrom(this.propostaService.update(this.proposta, 2))
     this._loading.dismiss()
 
     if (success) {
@@ -56,6 +56,26 @@ export class DetalhePropostaPage implements OnInit {
         status: propostas.status
       }
       await this.resolveToast('Proposta aprovada com sucesso!', 'success')
+      await this._toast.present()
+    } else {
+      await this.resolveToast(message, 'danger')
+      await this._toast.present()
+    }
+  }
+
+  public async reprovarProposta() {
+    await this.resolveLoading()
+    this._loading.present()
+    const { propostas: [propostas], success, message } = await firstValueFrom(this.propostaService.update(this.proposta, 3))
+    this._loading.dismiss()
+
+    if (success) {
+      this.proposta = {
+        ...this.proposta,
+        status: propostas.status
+      }
+
+      await this.resolveToast('Proposta reprovada com sucesso!', 'success')
       await this._toast.present()
     } else {
       await this.resolveToast(message, 'danger')

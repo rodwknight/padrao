@@ -107,7 +107,7 @@ const updateProposta = async (req: any, res: any) => {
 
         let query: any
 
-        if (status == 2) {
+        if (status === 2) {
 
             query = {
                 status,
@@ -133,6 +133,16 @@ const updateProposta = async (req: any, res: any) => {
                                 idUsuario: proposta.usuario.id
                             }
                         }
+                    }
+                }
+            }
+        } else if (status === 3) {
+            query = {
+                status,
+                contrato: {
+                    update: {
+                        dataFinal: new Date(now),
+                        status,
                     }
                 }
             }

@@ -65,7 +65,7 @@ export class PropostaPage implements OnInit {
   public async aprovar(propostaSelecionada: ListaProposta): Promise<void> {
     await this.resolveLoading()
     this._loading.present()
-    const { propostas, success, message } = await firstValueFrom(this.propostaService.update(propostaSelecionada))
+    const { propostas, success, message } = await firstValueFrom(this.propostaService.update(propostaSelecionada, 2))
     this._loading.dismiss()
 
     if (success) {
@@ -76,6 +76,22 @@ export class PropostaPage implements OnInit {
       await this.resolveToast(message, 'danger')
       await this._toast.present()
     }
+  }
+
+  public async reprovar(propostaSelecionada: ListaProposta): Promise<void> {
+    await this.resolveLoading()
+    this._loading.present()
+    const { propostas, success, message } = await firstValueFrom(this.propostaService.update(propostaSelecionada, 3))
+    this._loading.dismiss()
+
+    if (success) {
+      this.propostas = propostas
+      await this.resolveToast('Proposta reprovada com sucesso!', 'success')
+      await this._toast.present()
+    } else {
+      await this.resolveToast(message, 'danger')
+      await this._toast.present()
+    } 
   }
 
   private async buscaLista(): Promise<ListaProposta[]> {

@@ -39,10 +39,10 @@ export class ContratoService {
     return this.http.post(`${this._URL}/contrato/detalhe`, { params: { id } })
   }
 
-  public update(contrato: DetalheContrato | ListaContrato): Observable<any> {
+  public update(contrato: DetalheContrato | ListaContrato, status: number): Observable<any> {
     const body = {
       ...contrato,
-      status: 2
+      status
     }
     return this.http.patch(`${this._URL}/contrato/update`, body)
   }

@@ -3,12 +3,12 @@
     <ion-header class="ion-no-border">
       <ion-toolbar>
         <ion-title size="large" slot="start">Detalhe Proposta</ion-title>
-        <div slot="end">
+        <div slot="end" [ngClass]="{'disabled' : proposta.status > 1}">
           <ion-button (click)="aprovarProposta()">
             <ion-icon slot="start" name="checkmark"></ion-icon>
             <ion-text>Aprovar</ion-text>
           </ion-button>
-          <ion-button color="danger" class="ion-margin-end">
+          <ion-button color="danger" class="ion-margin-end" (click)="reprovarProposta()">
             <ion-icon slot="start" name="close"></ion-icon>
             <ion-text>Reprovar</ion-text>
           </ion-button>

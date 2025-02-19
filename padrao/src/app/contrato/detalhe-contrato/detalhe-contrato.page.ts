@@ -47,7 +47,7 @@ export class DetalheContratoPage implements OnInit {
   public async aprovarContrato() {
     await this.resolveLoading()
     this._loading.present()
-    const { contratos: [contratos], success, message } = await firstValueFrom(this.contratoService.update(this.contrato))
+    const { contratos: [contratos], success, message } = await firstValueFrom(this.contratoService.update(this.contrato, 2))
     this._loading.dismiss()
 
     if (success) {
@@ -56,6 +56,25 @@ export class DetalheContratoPage implements OnInit {
         status: contratos.status
       }
       await this.resolveToast('Contrato aprovado com sucesso!', 'success')
+      await this._toast.present()
+    } else {
+      await this.resolveToast(message, 'danger')
+      await this._toast.present()
+    }
+  }
+
+  public async reprovarContrato() {
+    await this.resolveLoading()
+    this._loading.present()
+    const { contratos: [contratos], success, message } = await firstValueFrom(this.contratoService.update(this.contrato, 3))
+    this._loading.dismiss()
+
+    if (success) {
+      this.contrato = {
+        ...this.contrato,
+        status: contratos.status
+      }
+      await this.resolveToast('Contrato reprovado com sucesso!', 'success')
       await this._toast.present()
     } else {
       await this.resolveToast(message, 'danger')

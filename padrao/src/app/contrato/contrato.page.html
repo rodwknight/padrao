@@ -28,10 +28,10 @@
           <ion-chip [color]="typeStatus(contrato.status)" class="ion-chip-list">{{
             labelStatus(contrato.status)}}</ion-chip>
           <ion-note color="medium">{{ contrato.createdAt | date: 'dd/MM/yyyy' }}</ion-note>
-          <ion-button shape="round" fill="clear" [id]="'mais-opcoes-' + contrato.id">
+          <ion-button shape="round" fill="clear" [id]="'mais-opcoes-' + contrato.id" *ngIf="contrato.status === 1">
             <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
           </ion-button>
-          <ion-popover [trigger]="'mais-opcoes-' + contrato.id" [dismissOnSelect]="true">
+          <ion-popover [trigger]="'mais-opcoes-' + contrato.id" [dismissOnSelect]="true" *ngIf="contrato.status === 1">
             <ng-template>
               <ion-content>
                 <ion-list lines="none">                  
@@ -39,7 +39,7 @@
                     <ion-icon slot="start" name="checkmark"></ion-icon>
                     <ion-text>Aprovar</ion-text>
                   </ion-item>
-                  <ion-item [button]="true" class="ion-padding-start">
+                  <ion-item [button]="true" class="ion-padding-start" (click)="reprovar(contrato)">
                     <ion-icon slot="start" name="close"></ion-icon>
                     <ion-text>Reprovar</ion-text>
                   </ion-item>

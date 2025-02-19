@@ -45,27 +45,35 @@ ion-item::part(native) {
     padding-top: 3px;
     padding-bottom: 3px;
 }
+
 //xs
-@media (max-width: 575px) {
-    
-}
+@media (max-width: 575px) {}
+
 //sm
-@media (min-width: 576px) and (max-width: 767px) {
-    
-}
+@media (min-width: 576px) and (max-width: 767px) {}
+
 //md
-@media (min-width: 768px) and (max-width: 991px) {
-    
-}
+@media (min-width: 768px) and (max-width: 991px) {}
+
 //lg
 @media (min-width: 992px) and (max-width: 1199px) {
     .ion-pt-lg {
         padding-top: 16px;
     }
 }
+
 //xl
 @media (min-width: 1200px) {
     .ion-pt-xl {
         padding-top: 16px;
     }
+}
+
+.disabled ion-button {
+    --background: #9d9d9d;
+    --ion-color-base: #9d9d9d !important;
+    ---color: #fff;
+    --ion-color-contrast: #fff !important;
+    pointer-events: none;
+    --opacity: 0.5;
 }

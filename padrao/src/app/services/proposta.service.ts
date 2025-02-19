@@ -44,10 +44,10 @@ export class PropostaService {
     return this.http.post(`${this._URL}/proposta/detalhe`, { params: { id } })
   }
 
-  public update(proposta: ListaProposta): Observable<any> {
+  public update(proposta: ListaProposta, status: number): Observable<any> {
     const body = {
       ...proposta,
-      status: 2
+      status
     }
     return this.http.patch(`${this._URL}/proposta/update`, body)
   }
