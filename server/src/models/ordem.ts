@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 const OrdemModel = {
 
-    list: async (where: any = undefined) => {
+    list: async () => {
         return await prisma.ordem.findMany({
             select: {
                 id: true,
@@ -76,6 +76,29 @@ const OrdemModel = {
                 OR: [
                     { codOrdem: { contains: filter } }
                 ]
+            },
+            select: {
+                id: true,
+                codOrdem: true,
+                cliente: {
+                    select: {
+                        codCliente: true,
+                        nomeFantasia: true
+                    }
+                },
+                unidade: {
+                    select: {
+                        codUnidade: true,
+                        nomeFantasia: true
+                    }
+                },
+                usuario: {
+                    select: {
+                        nome: true
+                    },
+                },
+                status: true,
+                createdAt: true
             }
         })
     },

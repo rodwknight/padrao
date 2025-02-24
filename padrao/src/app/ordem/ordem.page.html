@@ -1,0 +1,60 @@
+<app-main-content menu-id="ordem" urlBack="/home" [search]="true" (searchChange)="onSearchChange($event)">
+  <ion-content [fullscreen]="true">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title>Lista de Ordens</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-list *ngFor="let ordem of ordens" [inset]="true" class="ion-no-margin-vertical">
+      <ion-label (click)="detalheOrdem(ordem)">
+        <strong>{{ ordem.codOrdem }}</strong>
+        <ion-text class="ion-text-uppercase">
+          <h3>{{ordem.cliente?.codCliente}} - {{
+            ordem.cliente?.nomeFantasia}}
+          </h3>
+        </ion-text>
+        <ion-text class="ion-text-wrap">
+          <h3>
+            {{ordem.unidade?.codUnidade}} - {{
+            ordem.unidade?.nomeFantasia}}
+          </h3>
+        </ion-text>
+        <ion-note color="medium" class="ion-text-wrap">
+          {{ordem.usuario?.nome}}
+        </ion-note>
+      </ion-label>
+      <div class="metadata-end-wrapper" slot="end">
+        <ion-chip [color]="typeStatus(ordem.status)" class="ion-chip-list">{{
+          labelStatus(ordem.status)}}</ion-chip>
+        <ion-note color="medium">{{ ordem.createdAt | date: 'dd/MM/yyyy' }}</ion-note>
+        <ion-button shape="round" fill="clear" [id]="'mais-opcoes-' + ordem.id" *ngIf="ordem.status === 1">
+          <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-popover [trigger]="'mais-opcoes-' + ordem.id" [dismissOnSelect]="true" *ngIf="ordem.status === 1">
+          <ng-template>
+            <ion-content>
+              <ion-list lines="none">
+                <ion-item [button]="true" class="ion-padding-start" (click)="aprovar(ordem)">
+                  <ion-icon slot="start" name="checkmark"></ion-icon>
+                  <ion-text>Aprovar</ion-text>
+                </ion-item>
+                <ion-item [button]="true" class="ion-padding-start" (click)="reprovar(ordem)">
+                  <ion-icon slot="start" name="close"></ion-icon>
+                  <ion-text>Reprovar</ion-text>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </div>
+    </ion-list>
+    <ion-item *ngIf="ordens.length === 0">
+      <ion-label class="ion-text-center">Nenhuma ordem encontrado!</ion-label>
+    </ion-item>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="adicionarOrdem()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</app-main-content>

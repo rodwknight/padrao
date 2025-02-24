@@ -3,20 +3,20 @@ const servicoModel = require('../models/servico')
 const contratoModel = require('../models/contrato')
 const ordemModel = require('../models/ordem')
 
-// Retorna todos as propostas
-const getPropostas = async (req: any, res: any): Promise<any> => {
+// Retorna todos as servicos
+const getServicos = async (req: any, res: any): Promise<any> => {
     try {
-        const propostas = await propostaModel.list()
-        res.status(200).send({ propostas })
+        const servicos = await propostaModel.list()
+        res.status(200).send({ servicos })
     } catch (error) {
         res.status(500).send({
-            message: 'Erro ao listar Propostas' + error,
+            message: 'Erro ao listar Servicos' + error,
             success: false
         })
     }
 };
 
-const getPropostaDetail = async (req: any, res: any): Promise<any> => {
+const getServicoDetail = async (req: any, res: any): Promise<any> => {
     try {
 
         const { body } = req
@@ -35,67 +35,31 @@ const getPropostaDetail = async (req: any, res: any): Promise<any> => {
     }
 }
 
-const createProposta = async (req: any, res: any) => {
+const createServico = async (req: any, res: any) => {
 
     try {
 
-        const { idCliente, idUnidade, funcionarios, deslocamento, valorDeslocamento, servicos, idUsuario, total } = req.body
-        const count = await propostaModel.count()
+        const total = await servicoModel.count()
+
         const anoAtual = new Date().getFullYear();
-        const now = new Date();
+        const codServico = `S${total + 1}/${anoAtual}`
 
-        const countContrato = await contratoModel.count()
-
-        const data = {
-            funcionarios,
-            deslocamento,
-            valorDeslocamento: valorDeslocamento ? valorDeslocamento : 0,
-            total,
-            codProposta: `P${count + 1}/${anoAtual}`,
-            contrato: {
-                create: {
-                    codContrato: `CO${countContrato + 1}/${anoAtual}`,
-                    dataFinal: new Date(now.setFullYear(now.getFullYear() + 1)),
-                }
-            },
-            propostaServicos: {
-                create: servicos.map((servico: any) => ({
-                    idServico: servico.id,
-                    valor: servico.valor,
-                }))
-            },
-            cliente: {
-                connect: { id: idCliente }
-            },
-            unidade: {
-                connect: { id: idUnidade }
-            },
-            usuario: {
-                connect: { id: idUsuario }
-            }
-        }
-
-        const proposta = await propostaModel.create(data)
-
-        for (let servico of servicos) {
-            await servicoModel.update(servico.id, { valor: servico.valor })
-        }
+        await servicoModel.create({ ...req.body, codServico })
 
         res.status(201).send({
-            message: `Proposta cadastrado com sucesso!`,
-            proposta,
+            message: `Serviço cadastrado com sucesso!`,
             success: true
         })
 
     } catch (error) {
-        res.status(500).send({
-            message: 'Erro ao cadastrar Proposta! Error: ' + error,
+        return res.status(500).send({
+            message: 'Erro ao cadastrar Serviço! ' + error,
             success: false
         })
     }
 }
 
-const updateProposta = async (req: any, res: any) => {
+const updateServico = async (req: any, res: any) => {
     try {
 
         const { id, status } = req.body
@@ -165,33 +129,33 @@ const updateProposta = async (req: any, res: any) => {
     }
 }
 
-const getListPropostas = async (req: any, res: any): Promise<any> => {
+const getListServicos = async (req: any, res: any): Promise<any> => {
     try {
         const { body } = req
         const { params } = body
-        let propostas = []
+        let servicos = []
         if (!params.filter) {
-            propostas = await propostaModel.list()
+          servicos = await servicoModel.list()
         } else {
-            propostas = await propostaModel.search(params.filter)
+          servicos = await servicoModel.search(params.filter)
         }
-
+    
         res.status(200).send({
-            propostas
+          servicos
         })
-    } catch (error) {
+      } catch (error) {
         return res.status(500).send({
-            message: 'Erro ao buscar a lista de Proposta! Error: ' + error,
-            success: false
+          message: 'Erro ao buscar a lista de Serviços! ',
+          success: false
         })
-    }
+      }
 }
 
 module.exports = {
-    getPropostas,
-    getPropostaDetail,
-    createProposta,
-    updateProposta,
-    getListPropostas
+    getServicos,
+    getServicoDetail,
+    createServico,
+    updateServico,
+    getListServicos
 };
 
