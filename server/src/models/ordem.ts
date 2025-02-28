@@ -116,6 +116,11 @@ const OrdemModel = {
                 valorDeslocamento: true,
                 total: true,
                 createdAt: true,
+                contratos: {
+                    select: {
+                        codContrato: true
+                    }
+                },
                 ordemServicos: {
                     select: {
                         valor: true,

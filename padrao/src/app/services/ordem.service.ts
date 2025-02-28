@@ -43,9 +43,9 @@ export class OrdemService {
       return this.http.post(`${this._URL}/ordem/detalhe`, { params: { id } })
     }
   
-    public update(proposta: FormOrdem, status: number): Observable<any> {
+    public update(ordem: Partial<FormOrdem>, status: number): Observable<any> {
       const body = {
-        ...proposta,
+        ...ordem,
         status
       }
       return this.http.patch(`${this._URL}/ordem/update`, body)

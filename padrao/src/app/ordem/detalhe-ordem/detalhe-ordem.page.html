@@ -1,0 +1,112 @@
+<app-main-content urlBack="/ordem" menu-id="detalhe-ordem">
+  <ion-content [fullscreen]="true">
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-title size="large" slot="start">Detalhe da Ordem</ion-title>
+        <div slot="end" [ngClass]="{'disabled' : ordem.status > 3}">
+          <ion-button (click)="iniciar()" *ngIf="ordem.status === 1">
+            <ion-icon slot="start" name="checkmark"></ion-icon>
+            <ion-text>Iniciar</ion-text>
+          </ion-button>
+          <ion-button color="tertiary" class="ion-margin-end" (click)="finalizar()" *ngIf="ordem.status === 2">
+            <ion-icon slot="start" name="close"></ion-icon>
+            <ion-text>Finalizar</ion-text>
+          </ion-button>
+          <ion-button color="danger" class="ion-margin-end" (click)="cancelar()" *ngIf="ordem.status < 3">
+            <ion-icon slot="start" name="close"></ion-icon>
+            <ion-text>Cancelar</ion-text>
+          </ion-button>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <h1>Geral</h1>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list [inset]="true" lines="none" class="ion-no-margin-vertical">
+          <ion-item>
+            <ion-label slot="start" class="ion-no-margin">
+              <strong>{{ ordem.codOrdem }}</strong>
+            </ion-label>
+            <div class="metadata-end-wrapper" slot="end">
+              <ion-chip [color]="typeStatus(ordem.status)" class="ion-chip-list">{{
+                labelStatus(ordem['status'])}}</ion-chip>
+              <ion-note color="medium">{{ ordem.createdAt | date: 'dd/MM/yyyy' }}</ion-note>
+            </div>
+          </ion-item>
+          <ion-item *ngIf="validaContrato()">
+            <ion-label slot="start">
+              Contrato:
+              <ion-text color="primary">
+                {{validaContrato()}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label slot="start">
+              Nº de funcionários:
+              <ion-text color="primary">
+                {{ordem.funcionarios}}
+              </ion-text>
+            </ion-label>
+
+          </ion-item>
+          <ion-item *ngIf="ordem.nomeUsuario">
+            <ion-label slot="start">
+              Vendedor:
+              <ion-text color="primary">
+                {{ordem.nomeUsuario}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="ordem.codUnidade">
+            <ion-label slot="start">
+              Contratante:
+              <ion-text color="primary">
+                {{ordem.codUnidade}} - {{ordem.nomeUnidade}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+          <ion-item *ngIf="ordem.codCliente">
+            <ion-label slot="start">
+              Contratado:
+              <ion-text color="primary">
+                {{ordem.codCliente}} - {{ordem.nomeCliente}}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <h1>Serviços</h1>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="9">Nome</ion-col>
+            <ion-col>Valor</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let ordemServico of ordem.servicos">
+            <ion-col size="9">{{ordemServico.servicos.codServico}} - {{ordemServico.servicos.descricao}}</ion-col>
+            <ion-col>{{ordemServico.valor | currency: 'BRL' }}</ion-col>
+          </ion-row>
+          <ion-row *ngIf="ordem.deslocamento">
+            <ion-col size="9">Deslocamento</ion-col>
+            <ion-col>{{ordem.valorDeslocamento | currency: 'BRL'}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9"><strong>Total</strong></ion-col>
+            <ion-col><strong>{{ordem.total | currency: 'BRL'}}</strong></ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</app-main-content>

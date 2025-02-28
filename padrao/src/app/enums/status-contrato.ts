@@ -9,5 +9,5 @@ export enum StatusContrato {
 export const listaStatusContrato = new Map<StatusContrato, Status>([
     [StatusContrato.EM_ANALISE, { label: 'Em analise', type: 'warning' }],
     [StatusContrato.APROVADO, { label: 'Aprovado', type: 'success' }],
-    [StatusContrato.REJEITADO, {label: 'Rejeitado', type: 'Danger'}]
+    [StatusContrato.REJEITADO, {label: 'Rejeitado', type: 'danger'}]
 ])

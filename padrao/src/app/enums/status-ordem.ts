@@ -1,13 +1,15 @@
 import { Status } from 'src/app/interfaces/status'
 
 export enum StatusOrdem {
-    EM_ANALISE = 1,
-    APROVADO = 2,
-    FINALIZADO = 3
+    NAO_INICIADO = 1,
+    INICIADO = 2,
+    FINALIZADO = 3,
+    CANCELADO = 4
 }
 
 export const listaStatusOrdem = new Map<StatusOrdem, Status>([
-    [StatusOrdem.EM_ANALISE, { label: 'Em analise', type: 'warning' }],
-    [StatusOrdem.APROVADO, { label: 'Aprovado', type: 'success' }],
-    [StatusOrdem.FINALIZADO, { label: 'Finalizado', type: 'Danger' }]
+    [StatusOrdem.NAO_INICIADO, { label: 'Não Iniciado', type: 'warning' }],
+    [StatusOrdem.INICIADO, { label: 'Iniciado', type: 'success' }],
+    [StatusOrdem.FINALIZADO, { label: 'Finalizado', type: 'tertiary' }],
+    [StatusOrdem.CANCELADO, { label: 'Cancelado', type: 'danger' }]
 ])

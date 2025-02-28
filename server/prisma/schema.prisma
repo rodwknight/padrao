@@ -162,6 +162,8 @@ model Ordem {
   valorDeslocamento Float          @default(0)
   total             Int
   createdAt         DateTime       @default(now())
+  dataInicial       DateTime?
+  dataFinal         DateTime?       
   cliente           Cliente        @relation(fields: [idCliente], references: [id])
   unidade           Unidade        @relation(fields: [idUnidade], references: [id])
   usuario           Usuario        @relation(fields: [idUsuario], references: [id])

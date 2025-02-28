@@ -9,5 +9,5 @@ export enum StatusProposta {
 export const listaStatusProposta = new Map<StatusProposta, Status>([
     [StatusProposta.EM_ANALISE, { label: 'Em analise', type: 'warning' }],
     [StatusProposta.APROVADO, { label: 'Aprovado', type: 'success' }],
-    [StatusProposta.REJEITADO, {label: 'Rejeitado', type: 'Danger'}]
+    [StatusProposta.REJEITADO, {label: 'Rejeitado', type: 'danger'}]
 ])

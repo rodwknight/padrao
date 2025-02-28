@@ -9,38 +9,42 @@
       <ion-label (click)="detalheOrdem(ordem)">
         <strong>{{ ordem.codOrdem }}</strong>
         <ion-text class="ion-text-uppercase">
-          <h3>{{ordem.cliente?.codCliente}} - {{
-            ordem.cliente?.nomeFantasia}}
+          <h3>{{ordem.cliente.codCliente}} - {{
+            ordem.cliente.nomeFantasia}}
           </h3>
         </ion-text>
         <ion-text class="ion-text-wrap">
           <h3>
-            {{ordem.unidade?.codUnidade}} - {{
-            ordem.unidade?.nomeFantasia}}
+            {{ordem.unidade.codUnidade}} - {{
+            ordem.unidade.nomeFantasia}}
           </h3>
         </ion-text>
         <ion-note color="medium" class="ion-text-wrap">
-          {{ordem.usuario?.nome}}
+          {{ordem.usuario.nome}}
         </ion-note>
       </ion-label>
       <div class="metadata-end-wrapper" slot="end">
         <ion-chip [color]="typeStatus(ordem.status)" class="ion-chip-list">{{
           labelStatus(ordem.status)}}</ion-chip>
         <ion-note color="medium">{{ ordem.createdAt | date: 'dd/MM/yyyy' }}</ion-note>
-        <ion-button shape="round" fill="clear" [id]="'mais-opcoes-' + ordem.id" *ngIf="ordem.status === 1">
+        <ion-button shape="round" fill="clear" [id]="'mais-opcoes-' + ordem.id" *ngIf="ordem.status < 3">
           <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
         </ion-button>
-        <ion-popover [trigger]="'mais-opcoes-' + ordem.id" [dismissOnSelect]="true" *ngIf="ordem.status === 1">
+        <ion-popover [trigger]="'mais-opcoes-' + ordem.id" [dismissOnSelect]="true" *ngIf="ordem.status < 3">
           <ng-template>
             <ion-content>
               <ion-list lines="none">
-                <ion-item [button]="true" class="ion-padding-start" (click)="aprovar(ordem)">
-                  <ion-icon slot="start" name="checkmark"></ion-icon>
-                  <ion-text>Aprovar</ion-text>
+                <ion-item [button]="true" class="ion-padding-start" (click)="aprovar(ordem)" *ngIf="ordem.status === 1">
+                  <ion-icon slot="start" name="play"></ion-icon>
+                  <ion-text>Iniciar</ion-text>
                 </ion-item>
-                <ion-item [button]="true" class="ion-padding-start" (click)="reprovar(ordem)">
+                <ion-item [button]="true" class="ion-padding-start" (click)="cancelar(ordem)" *ngIf="ordem.status < 3">
                   <ion-icon slot="start" name="close"></ion-icon>
-                  <ion-text>Reprovar</ion-text>
+                  <ion-text>Cancelar</ion-text>
+                </ion-item>
+                <ion-item [button]="true" class="ion-padding-start" (click)="finalizar(ordem)" *ngIf="ordem.status === 2">
+                  <ion-icon slot="start" name="checkmark"></ion-icon>
+                  <ion-text>Finalizar</ion-text>
                 </ion-item>
               </ion-list>
             </ion-content>
