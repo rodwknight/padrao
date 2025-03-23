@@ -8,6 +8,7 @@ import { DetalhePropostaPageRoutingModule } from './detalhe-proposta-routing.mod
 
 import { DetalhePropostaPage } from './detalhe-proposta.page';
 import { MainContentComponent } from 'src/app/components/main-content/main-content.component';
+import { ModeloPropostaComponent } from 'src/app/components/modelo-proposta/modelo-proposta.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { MainContentComponent } from 'src/app/components/main-content/main-conte
     FormsModule,
     IonicModule,
     DetalhePropostaPageRoutingModule,
-    MainContentComponent
+    MainContentComponent,
+    ModeloPropostaComponent
   ],
   declarations: [DetalhePropostaPage]
 })

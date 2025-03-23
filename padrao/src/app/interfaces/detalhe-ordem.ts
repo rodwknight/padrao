@@ -15,7 +15,7 @@ export interface DetalheOrdem {
     dataInicial?: Date
     dataFinal?: Date
     contratos?: Contrato[]
-    servicos: PropostasServicos[]
+    ordemServicos: PropostasServicos[]
     codUnidade: string
     nomeUnidade: string
     codCliente: string

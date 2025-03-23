@@ -1,0 +1,44 @@
+## Proposta de Serviços
+
+**Data:** [Inserir Data]\
+**Cliente:** [Nome do Cliente]\
+**Empresa:** [Nome da Empresa]
+
+---
+
+### 1. Apresentação
+
+Apresentamos nossa proposta para a realização dos serviços de ASO - Atestado de Serviço Ocupacional e PCMSO - Programa de Controle Médico de Saúde Ocupacional, oferecendo suporte especializado para garantir a conformidade com as exigências legais e a segurança dos colaboradores.
+
+- **ASO (Atestado de Serviço Ocupacional)**: Consiste na avaliação médica dos colaboradores para atestar a aptidão para o trabalho, de acordo com as funções desempenhadas.
+- **PCMSO (Programa de Controle Médico de Saúde Ocupacional)**: É um programa que visa promover e preservar a saúde dos trabalhadores por meio de exames médicos periódicos e medidas preventivas. Apresentamos nossa proposta para a prestação dos seguintes serviços, visando atender às necessidades do cliente de forma eficiente e personalizada.
+
+### 2. Escopo dos Serviços
+
+Descrevemos abaixo os serviços a serem prestados:
+
+| Serviço                                                  | Valor             |
+| -------------------------------------------------------- | ----------------- |
+| ASO - Atestado de Serviço Ocupacional                    | R\$ [Valor ASO]   |
+| PCMSO - Programa de Controle Médico de Saúde Ocupacional | R\$ [Valor PCMSO] |
+
+### 3. Contato
+
+Para quaisquer dúvidas ou esclarecimentos adicionais, por favor, entre em contato conosco.
+
+**Nome:** [Seu Nome]\
+**Cargo:** [Seu Cargo]\
+**Telefone:** [Seu Telefone]\
+**E-mail:** [Seu E-mail]
+
+---
+
+**Aguardamos a sua aprovação para darmos início aos trabalhos.**
+
+Atenciosamente,
+
+**[Nome da Empresa]**
+
+**Assinatura:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\
+**Data:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+

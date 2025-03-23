@@ -93,7 +93,7 @@
             <ion-col size="9">Nome</ion-col>
             <ion-col>Valor</ion-col>
           </ion-row>
-          <ion-row *ngFor="let ordemServico of ordem.servicos">
+          <ion-row *ngFor="let ordemServico of ordem.ordemServicos">
             <ion-col size="9">{{ordemServico.servicos.codServico}} - {{ordemServico.servicos.descricao}}</ion-col>
             <ion-col>{{ordemServico.valor | currency: 'BRL' }}</ion-col>
           </ion-row>

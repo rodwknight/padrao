@@ -1,6 +1,7 @@
-interface Servicos {
+export interface Servicos {
     codServico: string
     descricao: string
+    descricaoProposta?: string
     nome: string
 }
 

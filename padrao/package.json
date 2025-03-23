@@ -32,6 +32,8 @@
     "@maskito/core": "^3.0.3",
     "@types/node": "^22.5.0",
     "ionicons": "^7.0.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
