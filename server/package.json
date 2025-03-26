@@ -10,7 +10,6 @@
     "test": "node --test test/**/*.test.js",
     "start": "ts-node-dev --respawn src/index.ts",
     "watch": "tsc --watch",
-    "teste-commit": "",
     "vercel-build": "npx prisma migrate deploy"
   },
   "keywords": [],
