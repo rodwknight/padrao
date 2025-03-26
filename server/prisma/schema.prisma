@@ -13,8 +13,8 @@ datasource db {
 model Usuario {
   id        String     @id @default(uuid())
   nome      String
-  username  String     @unique
-  password  String
+  username  String?     @unique
+  password  String?
   empresaId String
   propostas Proposta[]
   Ordem     Ordem[]
