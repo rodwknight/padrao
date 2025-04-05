@@ -23,8 +23,8 @@ export class OrdemService {
   
     private getUrl = (): void => {
       if (this._localStorage.exists('config')) {
-        const { ip, protocolo, porta } = this._localStorage.getItem('config') as Configuracao
-        this._URL = `${protocolo.value}://${ip}:${porta}/api`
+        const { url } = this._localStorage.getItem('config') as Configuracao
+        this._URL = `${url}/api`
       } else {
         this.router.navigate(['/'])
       }

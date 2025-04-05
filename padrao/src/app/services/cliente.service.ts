@@ -30,8 +30,8 @@ export class ClienteService {
 
   private getUrl = (): void => {
     if (this.localStorage.exists('config')) {
-      const { ip, protocolo, porta } = this.localStorage.getItem('config') as Configuracao
-      this.URL = `${protocolo.value}://${ip}:${porta}/api`
+      const { url } = this.localStorage.getItem('config') as Configuracao
+      this.URL = `${url}/api`
     } else {
       this.router.navigate(['/'])
     }
