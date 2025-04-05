@@ -57,7 +57,15 @@ export class ConfiguracaoPage implements OnInit {
   }
 
   public onSubmit = () => {
-    this.localStorageService.setItem('config', { ip: this.model.ip, porta: this.model.porta, protocolo: this.model.protocolo })
+
+    let url:string
+
+    if (this.model.porta != null)
+      url = `${this.model.protocolo}://${this.model.ip}:${this.model.porta}`
+    else
+      url = `${this.model.protocolo}://${this.model.ip}`
+
+    this.localStorageService.setItem('config', { url })
 
     this.router.navigate(['/'])
   }
