@@ -9,14 +9,14 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  
+
   private localStorage = new LocalStorageService()
   private URL: string = ''
-  
-  constructor(private http: HttpClient,
-              private router: Router) { }
 
-  
+  constructor(private http: HttpClient,
+    private router: Router) { }
+
+
 
   login(username: string, password: string): Observable<any> {
     this.getUrl()
@@ -40,9 +40,9 @@ export class AuthService {
   private getUrl() {
     if (this.localStorage.exists('config')) {
       const { ip, protocolo, porta } = this.localStorage.getItem('config') as Configuracao
-      if (porta)
+      if (porta != null)
         this.URL = `${protocolo.value}://${ip}:${porta}/api`
-      else 
+      else
         this.URL = `${protocolo.value}://${ip}/api`
 
     } else {
