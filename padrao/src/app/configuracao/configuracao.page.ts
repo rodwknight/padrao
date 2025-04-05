@@ -60,12 +60,12 @@ export class ConfiguracaoPage implements OnInit {
 
     let url:string
 
-    if (this.model.porta != null)
-      url = `${this.model.protocolo}://${this.model.ip}:${this.model.porta}`
+    if (this.model.porta)
+      url = `${this.model.protocolo.value}://${this.model.ip}:${this.model.porta}`
     else
-      url = `${this.model.protocolo}://${this.model.ip}`
+      url = `${this.model.protocolo.value}://${this.model.ip}`
 
-    this.localStorageService.setItem('config', { url })
+    this.localStorageService.setItem('config', { url, ip: this.model.ip, porta: this.model.porta, protocolo: this.model.protocolo })
 
     this.router.navigate(['/'])
   }
