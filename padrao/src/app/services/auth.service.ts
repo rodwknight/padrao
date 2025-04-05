@@ -40,7 +40,11 @@ export class AuthService {
   private getUrl() {
     if (this.localStorage.exists('config')) {
       const { ip, protocolo, porta } = this.localStorage.getItem('config') as Configuracao
-      this.URL = `${protocolo.value}://${ip}:${porta}/api`
+      if (porta)
+        this.URL = `${protocolo.value}://${ip}:${porta}/api`
+      else 
+        this.URL = `${protocolo.value}://${ip}/api`
+
     } else {
       this.router.navigate(['/'])
     }
