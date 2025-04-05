@@ -51,9 +51,9 @@ export class ConfiguracaoPage implements OnInit {
       this.model = this.localStorageService.getItem('config') as Configuracao
     }
 
-    this.configuracaoForm.get("ip")?.valueChanges.subscribe((selectedValue:string) => {
+    /*this.configuracaoForm.get("ip")?.valueChanges.subscribe((selectedValue:string) => {
       this.configuracaoForm.get("ip")?.setValue(this.pipeIp.transform(selectedValue), { emitEvent: false })
-    })
+    })*/
   }
 
   public onSubmit = () => {

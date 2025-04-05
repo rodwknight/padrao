@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <form [formGroup]="configuracaoForm" (ngSubmit)="onSubmit()" class="login-form">
     <ion-item class="ion-margin-bottom">
-      <ion-input formControlName="ip" label="Ip" labelPlacement="fixed" placeholder="127.0.0.1" [(ngModel)]="model.ip" maxlength="13" ></ion-input>
+      <ion-input formControlName="ip" label="Ip" labelPlacement="fixed" placeholder="127.0.0.1" [(ngModel)]="model.ip" ></ion-input>
     </ion-item>
     <ion-item class="ion-margin-bottom">
       <ion-input formControlName="porta" label="Porta" labelPlacement="fixed" placeholder="8080" type="number" [(ngModel)]="model.porta" maxlength="4" ></ion-input>
