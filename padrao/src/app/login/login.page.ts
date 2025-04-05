@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
           const { error } = resError as HttpErrorResponse
 
           const toast = await this.toastController.create({
-            message: error.error,
+            message: error,
             duration: 2000,
             color: 'danger'  // Defina a cor como 'danger' para mensagens de erro
           });
