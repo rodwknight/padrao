@@ -26,18 +26,18 @@ const EmpresaModel = {
     findFirst: async (where: any) => {
         return await prisma.empresa.findFirst({ where })
     },
-    exist: async (equals: string) => {
+    exist: async (nome: string) => {
 
         const where = {
             nome: {
-                equals,
+                equals: nome.trim(),
                 mode: 'insensitive'
             }
         }
 
-        console.log('where? ', { where })
+        const empresa = await prisma.empresa.findFirst({ where })
 
-        return await prisma.empresa.findFirst({ where })
+        return empresa
     }
 
 

@@ -11,22 +11,14 @@ const app = express();
 app.post('/get', async (req: any, res: any) => {
 
   const { username, password, empresa } = req.body;
-
-  console.log('1. empresa? ', empresa)
-
-  const empresas = await EmpresaModel.list()
-
-  console.log('2. empresa? ', empresas)
-
-  const { empresaId } = await EmpresaModel.exist(empresa)
-
-  console.log('3. empresa? ', empresaId)
-
-  if (!empresaId) {
+  
+  const { id } = await EmpresaModel.exist(empresa)
+  
+  if (!id) {
     return res.status(401).send({ error: 'Empresa inválida.' });
   }
 
-  const usuario = await usuarioModel.findFirst({ username, empresaId })
+  const usuario = await usuarioModel.findFirst({ username, empresaId: id })
 
   if (usuario) {
 
