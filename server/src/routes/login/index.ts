@@ -3,13 +3,30 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const usuarioModel = require('../../models/usuario')
+const EmpresaModel = require("../../models/empresa");
+
 const app = express();
 
 // Rota de login
 app.post('/get', async (req: any, res: any) => {
 
-  const { username, password } = req.body;
-  const usuario = await usuarioModel.findFirst({ username })
+  const { username, password, empresa } = req.body;
+
+  console.log('1. empresa? ', empresa)
+
+  const empresas = await EmpresaModel.list()
+
+  console.log('2. empresa? ', empresas)
+
+  const { empresaId } = await EmpresaModel.exist(empresa)
+
+  console.log('3. empresa? ', empresaId)
+
+  if (!empresaId) {
+    return res.status(401).send({ error: 'Empresa inválida.' });
+  }
+
+  const usuario = await usuarioModel.findFirst({ username, empresaId })
 
   if (usuario) {
 
@@ -52,15 +69,15 @@ app.post('/register', async (req: any, res: any) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Criar o novo usuário
-  const novoUsuario = await usuarioModel.create( {
-      username,
-      password: hashedPassword,
-      nome,
-      empresaId
-    }
+  const novoUsuario = await usuarioModel.create({
+    username,
+    password: hashedPassword,
+    nome,
+    empresaId
+  }
   );
 
-  res.status(201).send({ message: 'Usuário criado com sucesso'});
+  res.status(201).send({ message: 'Usuário criado com sucesso' });
 });
 
 module.exports = app;

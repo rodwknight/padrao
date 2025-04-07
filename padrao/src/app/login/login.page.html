@@ -7,6 +7,11 @@
     
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+      <ion-item class="ion-margin-bottom">
+        <ion-input placeholder="Empresa" formControlName="empresa"></ion-input>
+      </ion-item>
+
       <ion-item class="ion-margin-bottom">
         <ion-input placeholder="Usuário" formControlName="username"></ion-input>
       </ion-item>

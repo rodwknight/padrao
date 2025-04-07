@@ -25,6 +25,7 @@ export class LoginPage implements OnInit {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
+      empresa: ['', Validators.required],
     })
   }
 
@@ -37,10 +38,10 @@ export class LoginPage implements OnInit {
   public async onSubmit() {
     if (this.localStorageService.exists('config')) {
       if (this.loginForm.valid) {
-        const { username, password } = this.loginForm.value;
+        const { username, password, empresa } = this.loginForm.value;
 
         try {
-          const { token, nome, usuarioId } = await firstValueFrom(this.authService.login(username, password))
+          const { token, nome, usuarioId } = await firstValueFrom(this.authService.login(username, password, empresa))
           const localStorageService = new LocalStorageService()
           localStorageService.setItem('accesskey', token)        
           localStorageService.setItem('usuario', {
