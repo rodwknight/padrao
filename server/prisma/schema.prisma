@@ -10,7 +10,7 @@ datasource db {
 model Usuario {
   id        String     @id @default(uuid())
   nome      String
-  username  String?     @unique
+  username  String?    @unique
   password  String?
   empresaId String
   propostas Proposta[]
@@ -21,10 +21,22 @@ model Usuario {
   @@map("usuarios")
 }
 
+model Licenca {
+  id         String    @id @default(uuid())
+  nome       String
+  quantidade Int
+  empresa    Empresa[]
+
+  @@map("licencas")
+}
+
 model Empresa {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   nome      String
-  createdAt DateTime @default(now())
+  idLicenca String
+  createdAt DateTime  @default(now())
+  licenca   Licenca   @relation(fields: [idLicenca], references: [id])
+  unidade   Unidade[]
 
   @@map("empresas")
 }
@@ -49,7 +61,9 @@ model Unidade {
   telefone      String
   celular       String
   email         String
+  idEmpresa     String
   createdAt     DateTime   @default(now())
+  empresa       Empresa    @relation(fields: [idEmpresa], references: [id])
   propostas     Proposta[]
   Ordem         Ordem[]
 
@@ -160,7 +174,7 @@ model Ordem {
   total             Int
   createdAt         DateTime       @default(now())
   dataInicial       DateTime?
-  dataFinal         DateTime?       
+  dataFinal         DateTime?
   cliente           Cliente        @relation(fields: [idCliente], references: [id])
   unidade           Unidade        @relation(fields: [idUnidade], references: [id])
   usuario           Usuario        @relation(fields: [idUsuario], references: [id])
