@@ -37,6 +37,10 @@ const routes: Routes = [
   {
     path: 'ordem',
     loadChildren: () => import('./ordem/ordem.module').then( m => m.OrdemPageModule)
+  },
+  {
+    path: 'usuario',
+    loadChildren: () => import('./usuario/usuario.module').then( m => m.UsuarioPageModule)
   }
 ];
 @NgModule({
