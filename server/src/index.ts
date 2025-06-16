@@ -9,6 +9,7 @@ const servicoRoutes = require('./routes/servico')
 const propostaRoutes = require('./routes/proposta')
 const contratoRoutes = require('./routes/contrato')
 const ordemRoutes = require('./routes/ordem')
+const empresaRoutes = require('./routes/empresa')
 
 const port = 3000;
 
@@ -22,5 +23,6 @@ app.use('/api/servico', servicoRoutes)
 app.use('/api/proposta', propostaRoutes)
 app.use('/api/contrato', contratoRoutes)
 app.use('/api/ordem', ordemRoutes)
+app.use('/api/empresa', empresaRoutes)
 
 app.listen(port, () => { });

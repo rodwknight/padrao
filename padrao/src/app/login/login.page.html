@@ -1,15 +1,23 @@
-
 <ion-content [fullscreen]="true">
   <div class="login-container">
-    <ion-thumbnail class="login-logo ion-margin-bottom" >
+    <ion-thumbnail class="login-logo ion-margin-bottom">
       <ion-img src="../../assets/img/logo.png" alt="logo"></ion-img>
     </ion-thumbnail>
-    
+
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
 
       <ion-item class="ion-margin-bottom">
-        <ion-input placeholder="Empresa" formControlName="empresa"></ion-input>
+        <ion-select formControlName="empresa" aria-label="empresa" interface="popover" placeholder="Selecione a Empresa"
+          label="Empresa:">
+          @for (empresa of empresas; track empresa) {
+          <ion-select-option [value]="empresa">{{empresa.nome}}</ion-select-option>
+          }
+        </ion-select>
+        <div *ngIf="isFieldInvalid('empresa')">
+          <ion-chip *ngIf="loginForm.get('empresa')?.errors?.['required']" color="danger">Empresa
+            obrigatória!</ion-chip>
+        </div>
       </ion-item>
 
       <ion-item class="ion-margin-bottom">

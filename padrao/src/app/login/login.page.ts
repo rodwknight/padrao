@@ -3,9 +3,11 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service'
 import { LocalStorageService } from '../services/local-storage.service';
+import { ListaEmpresa } from '../interfaces/listaEmpresa';
+import { EmpresaService } from '../services/empresa.service';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +15,18 @@ import { LocalStorageService } from '../services/local-storage.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  public loginForm: FormGroup
+  protected loginForm: FormGroup
+  protected empresas: ListaEmpresa[]
   private localStorageService = new LocalStorageService
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastController: ToastController) {
+    private toastController: ToastController,
+    private empresaService: EmpresaService) {
+
+    this.getListEmpresas()
 
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -43,7 +49,7 @@ export class LoginPage implements OnInit {
         try {
           const { token, nome, usuarioId } = await firstValueFrom(this.authService.login(username, password, empresa))
           const localStorageService = new LocalStorageService()
-          localStorageService.setItem('accesskey', token)        
+          localStorageService.setItem('accesskey', token)
           localStorageService.setItem('usuario', {
             nome,
             usuarioId
@@ -77,5 +83,14 @@ export class LoginPage implements OnInit {
   public async create() {
     await firstValueFrom(this.authService.create())
   }
-  
+
+  public isFieldInvalid(field: string): boolean {
+    const control = this.loginForm.get(field);
+    return control && control.invalid && (control.dirty || control.touched) ? true : false;
+  }
+
+  private async getListEmpresas() {
+    this.empresas = await lastValueFrom(this.empresaService.list) as ListaEmpresa[] || [] as ListaEmpresa[]
+  }
+
 }

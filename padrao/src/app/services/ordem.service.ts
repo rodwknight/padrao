@@ -11,8 +11,8 @@ import { FormOrdem } from '../interfaces/form-ordem';
 })
 export class OrdemService {
 
-   private _localStorage: LocalStorageService<unknown>
-    private _URL: string
+  private _localStorage: LocalStorageService<unknown>
+  private _URL: string
   
     constructor(private http: HttpClient,
       private router: Router) {
