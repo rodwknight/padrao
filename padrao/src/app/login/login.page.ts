@@ -26,6 +26,8 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private empresaService: EmpresaService) {
 
+      this.empresas = [] as ListaEmpresa[]
+
     this.getListEmpresas()
 
     this.loginForm = this.fb.group({
