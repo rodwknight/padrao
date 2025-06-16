@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ListaUsuarios } from '../interfaces/lista-usuarios';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsuarioPage implements OnInit {
 
-  constructor() { }
+  protected usuarios: ListaUsuarios[]
+
+  constructor(private router: Router) {
+
+    this.usuarios = [] as ListaUsuarios[]
+  }
 
   ngOnInit() {
+  }
+
+  public adicionarUsuario = () => {
+    this.router.navigate(['/usuario/adicionar-usuario'])
+  }
+
+  public onSearchChange(e: any) {
+
   }
 
 }

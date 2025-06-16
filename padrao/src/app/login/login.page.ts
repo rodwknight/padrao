@@ -79,6 +79,6 @@ export class LoginPage implements OnInit {
   }
 
   public irCadastro = () => {
-    this.router.navigate(['/usuario/adicionar-cadastro'])
+    this.router.navigate(['/usuario/adicionar-usuario'])
   }
 }

@@ -8,12 +8,15 @@ import { UsuarioPageRoutingModule } from './usuario-routing.module';
 
 import { UsuarioPage } from './usuario.page';
 
+import { MainContentComponent } from '../components/main-content/main-content.component';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    UsuarioPageRoutingModule
+    UsuarioPageRoutingModule,
+    MainContentComponent
   ],
   declarations: [UsuarioPage]
 })

@@ -28,14 +28,6 @@ export class UnidadePage implements OnInit {
     this.router.navigate(['/unidade/adicionar-unidade'])
   }
 
-  /*public getTipo(status: number = 1): string {
-    return listaStatusUnidade.get(status)!.type
-  }
-
-  public getLabel(status: number = 1): string {
-    return listaStatusUnidade.get(status)!.label
-  }*/
-
   private async buscaLista(): Promise<FormUnidade[]> {
 
     const loading = await this.loadingCtrl.create({
