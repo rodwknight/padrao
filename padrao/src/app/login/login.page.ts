@@ -77,8 +77,5 @@ export class LoginPage implements OnInit {
   public async create() {
     await firstValueFrom(this.authService.create())
   }
-
-  public irCadastro = () => {
-    this.router.navigate(['/usuario/adicionar-usuario'])
-  }
+  
 }
